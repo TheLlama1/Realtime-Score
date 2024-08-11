@@ -25,7 +25,7 @@ export default function Navbar() {
           </NavigationMenuItem>
           <NavigationMenuItem>
             <div className="text-center text-xl text-gray-500 border-2 rounded-lg border-gray-700">
-              Search
+              Searchasd
             </div>
           </NavigationMenuItem>
         </NavigationMenuList>
