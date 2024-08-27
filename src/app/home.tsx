@@ -1,4 +1,6 @@
 import Head from "next/head";
+import { countries } from "country-flag-icons";
+import { DE } from "country-flag-icons/react/3x2";
 
 export default function Home() {
   return (
