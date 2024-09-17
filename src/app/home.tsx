@@ -15,55 +15,55 @@ export default function Home() {
           <ul className="space-y-4">
             <li className="flex items-center space-x-2">
               <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
-              <span>Premier League</span>
+              <button>Premier League</button>
             </li>
             <li className="flex items-center space-x-2">
               <span className="inline-block w-4 h-4 bg-[url('/path/to/france-flag.svg')] bg-cover"></span>
-              <span>Ligue 1</span>
+              <button>Ligue 1</button>
             </li>
             <li className="flex items-center space-x-2">
               <span className="inline-block w-4 h-4 bg-[url('/path/to/germany-flag.svg')] bg-cover"></span>
-              <span>Bundesliga</span>
+              <button>Bundesliga</button>
             </li>
             <li className="flex items-center space-x-2">
               <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
-              <span>La Liga</span>
+              <button>La Liga</button>
             </li>
             <li className="flex items-center space-x-2">
               <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
-              <span>Serie A</span>
+              <button>Serie A</button>
             </li>
             <li className="flex items-center space-x-2">
               <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
-              <span>Efbet League</span>
+              <button>Efbet League</button>
             </li>
             <li className="flex items-center space-x-2">
               <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
-              <span>MLS</span>
+              <button>MLS</button>
             </li>
             <li className="flex items-center space-x-2">
               <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
-              <span>Saudi Pro League</span>
+              <button>Saudi Pro League</button>
             </li>
             <li className="flex items-center space-x-2">
               <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
-              <span>Champions League</span>
+              <button>Champions League</button>
             </li>
             <li className="flex items-center space-x-2">
               <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
-              <span>Europa League</span>
+              <button>Europa League</button>
             </li>
             <li className="flex items-center space-x-2">
               <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
-              <span>Conference League</span>
+              <button>Conference League</button>
             </li>
             <li className="flex items-center space-x-2">
               <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
-              <span>World Cup</span>
+              <button>World Cup</button>
             </li>
             <li className="flex items-center space-x-2">
               <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
-              <span>European Championship</span>
+              <button>European Championship</button>
             </li>
             {/* Add more leagues as needed */}
           </ul>
