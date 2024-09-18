@@ -38,7 +38,7 @@ const SignIn: React.FC = () => {
           </button>
         </form>
         <div className="mt-4 text-center">
-          <a href="/forgot-password" className="text-gray-300 hover:text-white">
+          <a href="/reset-password" className="text-gray-300 hover:text-white">
             Forgot Password?
           </a>
         </div>

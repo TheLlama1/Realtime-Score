@@ -44,12 +44,9 @@ export default function Navbar() {
                 </a>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Sign in
-                </a>
+                <Link href="/sign-in">
+                  <button type="button">Sign in</button>
+                </Link>
               </li>
             </ul>
           </div>
