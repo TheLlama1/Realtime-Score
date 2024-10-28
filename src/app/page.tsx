@@ -1,6 +1,6 @@
 import React from "react";
-import MyNavbar from "@/components/navbar";
-import MyFooter from "@/components/footer";
+import MyNavbar from "@/app/components/navbar";
+import MyFooter from "@/app/components/footer";
 export default function Home() {
   return (
     <>

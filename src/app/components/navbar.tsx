@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/app/components/ui/input";
 import { cn } from "@/lib/utils";
 import { IoSearch } from "react-icons/io5";
 
@@ -14,7 +14,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
+} from "@/app/components/ui/navigation-menu";
 
 export default function Navbar() {
   return (
