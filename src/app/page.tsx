@@ -1,6 +1,6 @@
 import React from "react";
 import MyNavbar from "@/components/navbar";
-import SignIn from "@/app/sign-in/page";
+import MyFooter from "@/components/footer";
 export default function Home() {
   return (
     <>
@@ -11,55 +11,42 @@ export default function Home() {
           <aside className="w-1/4 p-4">
             <ul className="space-y-4">
               <li className="flex items-center space-x-2">
-                <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
                 <button>Premier League</button>
               </li>
               <li className="flex items-center space-x-2">
-                <span className="inline-block w-4 h-4 bg-[url('/path/to/france-flag.svg')] bg-cover"></span>
                 <button>Ligue 1</button>
               </li>
               <li className="flex items-center space-x-2">
-                <span className="inline-block w-4 h-4 bg-[url('/path/to/germany-flag.svg')] bg-cover"></span>
                 <button>Bundesliga</button>
               </li>
               <li className="flex items-center space-x-2">
-                <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
                 <button>La Liga</button>
               </li>
               <li className="flex items-center space-x-2">
-                <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
                 <button>Serie A</button>
               </li>
               <li className="flex items-center space-x-2">
-                <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
                 <button>Efbet League</button>
               </li>
               <li className="flex items-center space-x-2">
-                <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
                 <button>MLS</button>
               </li>
               <li className="flex items-center space-x-2">
-                <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
                 <button>Saudi Pro League</button>
               </li>
               <li className="flex items-center space-x-2">
-                <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
                 <button>Champions League</button>
               </li>
               <li className="flex items-center space-x-2">
-                <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
                 <button>Europa League</button>
               </li>
               <li className="flex items-center space-x-2">
-                <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
                 <button>Conference League</button>
               </li>
               <li className="flex items-center space-x-2">
-                <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
                 <button>World Cup</button>
               </li>
               <li className="flex items-center space-x-2">
-                <span className="inline-block w-4 h-4 bg-[url('/path/to/england-flag.svg')] bg-cover"></span>
                 <button>European Championship</button>
               </li>
               {/* Add more leagues as needed */}
@@ -139,6 +126,7 @@ export default function Home() {
           </main>
         </div>
       </main>
+      <MyFooter />
     </>
   );
 }

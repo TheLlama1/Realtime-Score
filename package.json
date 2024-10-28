@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@radix-ui/react-navigation-menu": "^1.2.0",
+    "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.427.0",
+    "moment": "^2.30.1",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
@@ -21,6 +23,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.4",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
