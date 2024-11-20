@@ -1,3 +1,5 @@
+// src/components/Navbar.tsx
+
 "use client";
 
 import * as React from "react";
@@ -6,6 +8,7 @@ import { Input } from "@/app/components/ui/input";
 import { cn } from "@/lib/utils";
 import { IoSearch } from "react-icons/io5";
 import SearchBar from "./search-bar/searchBar";
+import { Team } from "@/types/apiFootball";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -16,9 +19,9 @@ import {
   navigationMenuTriggerStyle,
 } from "@/app/components/ui/navigation-menu";
 
-export default function Navbar() {
+export default function Navbar({ teamsData }: { teamsData: Team[] }) {
   return (
-    <nav className=" border-b border-gray-200 ">
+    <nav className="border-b border-gray-200">
       <div className="max-w-screen-xl mx-auto p-4 flex flex-wrap items-center justify-between">
         <a href="#" className="flex items-center space-x-3">
           <img src="" className="h-8" alt="Realtime" />
@@ -31,7 +34,7 @@ export default function Navbar() {
           <div className="hidden w-full md:flex md:items-center md:w-auto md:order-1">
             <ul className="flex flex-col p-4 mt-4 space-y-2 bg-gray-50 rounded-lg md:space-y-0 md:space-x-8 md:flex-row md:mt-0 md:bg-transparent md:border-0 dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
               <li>
-                <a href="#" className="block py-2 px-3  rounded md:p-0">
+                <a href="#" className="block py-2 px-3 rounded md:p-0">
                   Home
                 </a>
               </li>
@@ -50,7 +53,7 @@ export default function Navbar() {
               </li>
             </ul>
           </div>
-          <SearchBar />
+          <SearchBar teamsData={teamsData} />
 
           {/* Mobile Menu Toggle */}
           <button

@@ -1,16 +1,20 @@
-// SearchBarForm.jsx
-import React, { ReactHTML } from "react";
+"use client";
+import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Team } from "@/types/apiFootball";
-import { useState } from "react";
-import PreviousMap from "postcss/lib/previous-map";
-import { useRouter } from "next/router";
 
-export default function SearchBarForm({ teamsData }: { teamsData: Team[] }) {
+export default function SearchBarForm({ teamsData }: { teamsData?: Team[] }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const [showFilteredBox, setShowFilteredBox] = useState(false);
 
-  let router = useRouter();
+  const router = useRouter();
+
+  if (!teamsData || !Array.isArray(teamsData)) {
+    console.error("Invalid or undefined teamsData provided to SearchBarForm");
+    return null; // Avoid rendering if teamsData is invalid
+  }
 
   const filteredTeams = teamsData.filter((team) =>
     team.team.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -23,28 +27,25 @@ export default function SearchBarForm({ teamsData }: { teamsData: Team[] }) {
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key == "ArrowDown") {
-      let length = 0;
-      if (filteredTeams.length > 10) {
-        length = 10;
-      } else {
-        length = filteredTeams.length;
-      }
+    if (event.key === "ArrowDown") {
+      const maxIndex = Math.min(filteredTeams.length, 10) - 1;
       setFocusedIndex((prevIndex) =>
-        prevIndex < length - 1 ? prevIndex - 1 : prevIndex
+        prevIndex < maxIndex ? prevIndex + 1 : prevIndex
       );
-    } else if (event.key == "ArrowUp") {
+    } else if (event.key === "ArrowUp") {
       event.preventDefault();
       setFocusedIndex((prevIndex) =>
         prevIndex > 0 ? prevIndex - 1 : prevIndex
       );
-    } else if (event.key === "Enter") {
-      if (focusedIndex !== -1) {
-        const teamId = filteredTeams[focusedIndex].team.id;
-        router.push(`/team/${teamId}`);
-        setSearchTerm("");
-      }
+    } else if (event.key === "Enter" && focusedIndex !== -1 && router) {
+      const teamId = filteredTeams[focusedIndex].team.id;
+      router.push(`/team/${teamId}`);
+      setSearchTerm("");
     }
+  };
+
+  const handleTeamItemClick = () => {
+    setSearchTerm("");
   };
 
   return (
@@ -72,6 +73,22 @@ export default function SearchBarForm({ teamsData }: { teamsData: Team[] }) {
         className="block w-full p-2 pl-10 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder="Search..."
       />
+      {searchTerm && filteredTeams.length > 0 && showFilteredBox ? (
+        <div className="absolute top-full left-2 w-full max-w-md bg-black/80 z-20 flex flex-col">
+          {filteredTeams.slice(0, 10).map((standing, i) => (
+            <Link
+              href={`/team/${standing.team.id}`}
+              key={standing.team.id}
+              className={`p-2 text-neutral-100 ${
+                i === focusedIndex ? "bg-neutral-100/40" : ""
+              }`}
+              onClick={handleTeamItemClick}
+            >
+              {standing.team.name}
+            </Link>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 }

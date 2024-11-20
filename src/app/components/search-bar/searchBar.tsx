@@ -1,14 +1,13 @@
-// SearchBar.jsx
+// src/components/search-bar/searchBar.tsx
+
+"use client";
 import React from "react";
 import SearchBarForm from "./searchBarForm";
-import getTeams from "@/app/services/getTeams";
 import { Team } from "@/types/apiFootball";
-export default async function SearchBar() {
-  let teamsData: Team[] = await getTeams();
 
+export default function SearchBar({ teamsData }: { teamsData: Team[] }) {
   return (
     <div>
-      {/* Search button (visible on mobile) */}
       <button
         type="button"
         className="md:hidden text-gray-500 dark:text-gray-400 p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700"
@@ -29,7 +28,6 @@ export default async function SearchBar() {
         <span className="sr-only">Search</span>
       </button>
 
-      {/* Include the search bar form (hidden on mobile) */}
       <SearchBarForm teamsData={teamsData} />
     </div>
   );
