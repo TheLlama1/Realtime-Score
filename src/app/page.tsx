@@ -1,131 +1,25 @@
 import React from "react";
 import MyNavbar from "@/app/components/navbar";
 import MyFooter from "@/app/components/footer";
-export default function Home() {
+import StandingsAndFixtures from "./components/home/standingsAndFixtures";
+import { AllFixtures, Standing } from "@/types/apiFootball";
+import getStandings from "./services/getStandings";
+import getFixturesForFiveLeagues from "./services/getFixturesForFiveLeagues";
+
+export default async function Home() {
+  const standingsData: Standing[] = await getStandings();
+  const filteredFixtures: AllFixtures[] = await getFixturesForFiveLeagues();
   return (
     <>
-      <MyNavbar /> {/* Include the Navbar component */}
-      <main className="flex min-h-screen flex-col items-center justify-center p-24">
-        <div className="flex">
-          {/* Sidebar */}
-          <aside className="w-1/4 p-4">
-            <ul className="space-y-4">
-              <li className="flex items-center space-x-2">
-                <button>Premier League</button>
-              </li>
-              <li className="flex items-center space-x-2">
-                <button>Ligue 1</button>
-              </li>
-              <li className="flex items-center space-x-2">
-                <button>Bundesliga</button>
-              </li>
-              <li className="flex items-center space-x-2">
-                <button>La Liga</button>
-              </li>
-              <li className="flex items-center space-x-2">
-                <button>Serie A</button>
-              </li>
-              <li className="flex items-center space-x-2">
-                <button>Efbet League</button>
-              </li>
-              <li className="flex items-center space-x-2">
-                <button>MLS</button>
-              </li>
-              <li className="flex items-center space-x-2">
-                <button>Saudi Pro League</button>
-              </li>
-              <li className="flex items-center space-x-2">
-                <button>Champions League</button>
-              </li>
-              <li className="flex items-center space-x-2">
-                <button>Europa League</button>
-              </li>
-              <li className="flex items-center space-x-2">
-                <button>Conference League</button>
-              </li>
-              <li className="flex items-center space-x-2">
-                <button>World Cup</button>
-              </li>
-              <li className="flex items-center space-x-2">
-                <button>European Championship</button>
-              </li>
-              {/* Add more leagues as needed */}
-            </ul>
-          </aside>
+      <MyNavbar />
 
-          {/* Main Content */}
-          <main className="w-3/4 p-4">
-            <div className="flex justify-between items-center mb-4">
-              <div className="space-x-4">
-                <button className="py-1 px-3 bg-gray-700 rounded">ALL</button>
-                <button className="py-1 px-3 bg-red-700 rounded">LIVE</button>
-                <button className="py-1 px-3 bg-gray-700 rounded">
-                  FINISHED
-                </button>
-                <button className="py-1 px-3 bg-gray-700 rounded">
-                  SCHEDULED
-                </button>
-              </div>
-              <div className="bg-gray-700 py-1 px-3 rounded">
-                <span>27/08 TU</span>
-              </div>
-            </div>
+      <div className="flex flex-col w-full justify-center items-center md:p-10">
+        <StandingsAndFixtures
+          standingsData={standingsData}
+          filteredFixtures={filteredFixtures}
+        />
+      </div>
 
-            {/* Match List */}
-            <div className="bg-gray-800 p-4 rounded-lg">
-              <div className="mb-4">
-                <div className="flex justify-between items-center">
-                  <h2 className="text-xl font-semibold">
-                    EUROPE: Champions League - Qualification
-                  </h2>
-                  <span className="text-sm">Draw</span>
-                </div>
-                <div className="flex flex-col space-y-2 mt-2">
-                  <div className="flex justify-between items-center">
-                    <span>22:00 Galatasaray (Tur) vs Young Boys (Sui)</span>
-                    <button className="bg-gray-700 py-1 px-2 rounded">
-                      PREVIEW
-                    </button>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span>22:00 Salzburg (Aut) vs Dyn. Kyiv (Ukr)</span>
-                    <button className="bg-gray-700 py-1 px-2 rounded">
-                      PREVIEW
-                    </button>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span>22:00 Sparta Prague (Cze) vs Malmo FF (Swe)</span>
-                    <button className="bg-gray-700 py-1 px-2 rounded">
-                      PREVIEW
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between items-center">
-                  <h2 className="text-xl font-semibold">SPAIN: LaLiga</h2>
-                  <span className="text-sm">Standings</span>
-                </div>
-                <div className="flex flex-col space-y-2 mt-2">
-                  <div className="flex justify-between items-center">
-                    <span>20:00 Mallorca vs Sevilla</span>
-                    <button className="bg-gray-700 py-1 px-2 rounded">
-                      PREVIEW
-                    </button>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span>22:30 Rayo Vallecano vs Barcelona</span>
-                    <button className="bg-gray-700 py-1 px-2 rounded">
-                      PREVIEW
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </main>
-        </div>
-      </main>
       <MyFooter />
     </>
   );

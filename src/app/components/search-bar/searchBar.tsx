@@ -1,5 +1,3 @@
-// src/components/search-bar/searchBar.tsx
-
 "use client";
 import React from "react";
 import SearchBarForm from "./searchBarForm";

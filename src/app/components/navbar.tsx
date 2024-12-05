@@ -1,5 +1,3 @@
-// src/components/Navbar.tsx
-
 "use client";
 
 import * as React from "react";
@@ -23,8 +21,8 @@ export default function Navbar({ teamsData }: { teamsData: Team[] }) {
   return (
     <nav className="border-b border-gray-200">
       <div className="max-w-screen-xl mx-auto p-4 flex flex-wrap items-center justify-between">
-        <a href="#" className="flex items-center space-x-3">
-          <img src="" className="h-8" alt="Realtime" />
+        <a href="/" className="flex items-center space-x-3">
+          <img src="/images/logo.png" className="h-20" alt="Realtime" />
           <span className="text-2xl font-semibold dark:text-white">
             Realtime Score
           </span>
