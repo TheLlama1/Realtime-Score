@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Team } from "@/types/apiFootball";
@@ -11,21 +11,29 @@ export default function SearchBarForm({ teamsData }: { teamsData?: Team[] }) {
 
   const router = useRouter();
 
-  if (!teamsData || !Array.isArray(teamsData)) {
-    console.error("Invalid or undefined teamsData provided to SearchBarForm");
-    return null; // Avoid rendering if teamsData is invalid
-  }
+  // Validate teamsData gracefully, if it's undefined or not an array, initialize it as an empty array
+  const validatedTeamsData = Array.isArray(teamsData) ? teamsData : [];
 
-  const filteredTeams = teamsData.filter((team) =>
+  // Log error if no valid teams data found, but only once
+  useEffect(() => {
+    if (!validatedTeamsData.length) {
+      console.error("No valid   teams data found.");
+    }
+  }, [validatedTeamsData]);
+
+  // Filter teams based on the search term
+  const filteredTeams = validatedTeamsData.filter((team) =>
     team.team.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Handle search input changes
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
     setFocusedIndex(-1);
     setShowFilteredBox(true);
   };
 
+  // Handle keyboard navigation in the filtered list
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "ArrowDown") {
       const maxIndex = Math.min(filteredTeams.length, 10) - 1;
@@ -37,16 +45,37 @@ export default function SearchBarForm({ teamsData }: { teamsData?: Team[] }) {
       setFocusedIndex((prevIndex) =>
         prevIndex > 0 ? prevIndex - 1 : prevIndex
       );
-    } else if (event.key === "Enter" && focusedIndex !== -1 && router) {
-      const teamId = filteredTeams[focusedIndex].team.id;
-      router.push(`/team/${teamId}`);
-      setSearchTerm("");
+    } else if (event.key === "Enter" && focusedIndex !== -1) {
+      const teamId = filteredTeams[focusedIndex]?.team.id;
+      if (teamId) {
+        setSearchTerm(""); // Clear the search term before navigating
+        router.push(`/team/${teamId}`); // Navigate to the selected team's page
+      }
     }
   };
 
+  // Handle clicking on a filtered team
   const handleTeamItemClick = () => {
     setSearchTerm("");
   };
+
+  const teamListRef = useRef<HTMLDivElement>(null);
+
+  const handleOutsideClick = (event: MouseEvent) => {
+    if (
+      teamListRef.current &&
+      !teamListRef.current.contains(event.target as Node)
+    ) {
+      setShowFilteredBox(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick);
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  });
 
   return (
     <div className="hidden relative md:block">
@@ -87,6 +116,10 @@ export default function SearchBarForm({ teamsData }: { teamsData?: Team[] }) {
               {standing.team.name}
             </Link>
           ))}
+        </div>
+      ) : searchTerm && showFilteredBox ? (
+        <div className="absolute top-full left-2 w-full max-w-md bg-black/80 z-20 p-2 text-neutral-100">
+          No results found
         </div>
       ) : null}
     </div>

@@ -1,8 +1,14 @@
 import "server-only";
 import { Standing } from "@/types/apiFootball";
 import moment from "moment";
+import { USE_SAMPLE } from "../sampleData/newSample";
+import getStandingsSample from "../sampleData/getStandingsSample";
 
 export default async function getStandings(): Promise<Standing[]> {
+  if (USE_SAMPLE) {
+    return getStandingsSample();
+  }
+
   const currentTime = moment();
   const month = currentTime.month();
   let year;
@@ -34,12 +40,12 @@ export default async function getStandings(): Promise<Standing[]> {
   ];
 
   for (const league of leagues) {
-    let url = `https://v3.football.api-sports.io/standings?league=${year}&season=${league.id}`;
+    let url = `https://v3.football.api-sports.io/standings?league=${league.id}&season=${year}`;
 
     await fetch(url, options)
       .then((response) => response.json())
       .then((data) => {
-        const standing = data.respone[0];
+        const standing = data.response[0];
         if (standing) {
           standings.push(standing);
         }

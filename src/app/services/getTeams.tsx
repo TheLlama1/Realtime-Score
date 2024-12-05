@@ -22,7 +22,7 @@ export default async function getTeams(): Promise<Team[]> {
 
     return teams;
   } catch (error) {
-    console.error("Error occured while fetching teams: ", error);
+    console.error("Error occurred while fetching teams: ", error);
     throw error;
   }
 }
