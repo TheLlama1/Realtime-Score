@@ -6,9 +6,17 @@ type PageProps = {
 };
 
 export default function FixturesByLeague({ fixturesData }: PageProps) {
-  if (fixturesData.length > 0) {
-    return fixturesData.slice(0, 4).map((match, i) => {
-      return <FixtureItem match={match} index={i} key={match.fixture.id} />;
-    });
-  }
+  return (
+    <div className="flex flex-col w-full">
+      {fixturesData.length > 0 ? (
+        fixturesData
+          .slice(0, 4)
+          .map((match, index) => (
+            <FixtureItem match={match} index={index} key={match.fixture.id} />
+          ))
+      ) : (
+        <div className="text-center text-gray-500">No fixtures to display.</div>
+      )}
+    </div>
+  );
 }

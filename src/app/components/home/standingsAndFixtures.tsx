@@ -3,6 +3,7 @@ import { AllFixtures, Standing } from "@/types/apiFootball";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import FixturesByLeague from "./fixturesByLeague";
+
 export default function StandingsAndFixtures({
   standingsData,
   filteredFixtures,
@@ -51,23 +52,24 @@ export default function StandingsAndFixtures({
   }, []);
 
   return (
-    <div className="flex flex-col w-full max-w-7xl bg-black ">
-      <div className="flex juststify-center items-center lg:w-3/5 md:p-10 py-5">
-        <div className="flex flex-col justify-center items-center bg-black w-full text-neutral-100 rounded-3xl">
-          <div className="w-full flex flex-col justify-center items-center">
-            <div className="p-2 font-bold">Standings</div>
-            <div className="flex justify-center w-full">
-              {menuItems.map((a, i) => (
+    <div className="flex flex-col w-full max-w-7xl bg-gray-900 text-white mx-auto p-5 rounded-xl">
+      <div className="flex flex-col lg:flex-row justify-between space-y-10 lg:space-y-0">
+        {/* Standings Section */}
+        <div className="flex-1 lg:w-3/5 md:p-10 py-5 bg-gray-800 rounded-xl">
+          <div className="flex flex-col justify-center items-center w-full text-neutral-100">
+            <div className="p-2 text-lg font-bold">Standings</div>
+            <div className="flex justify-center w-full mb-4">
+              {menuItems.map((leagueName, i) => (
                 <button
                   key={i}
-                  className={`w-full p-4 rounded-t-lg md:text-base text-xs font-bold ${
+                  className={`w-full p-4 rounded-t-lg md:text-base text-xs font-bold transition-all duration-300 ${
                     i === activeTab
-                      ? "text-neutral-100"
-                      : "text-gray-700 bg-black/70"
+                      ? "bg-gray-700 text-white"
+                      : "bg-gray-600 text-gray-200 hover:bg-gray-500"
                   }`}
                   onClick={() => handleTabClick(i)}
                 >
-                  {a}
+                  {leagueName}
                 </button>
               ))}
             </div>
@@ -80,11 +82,11 @@ export default function StandingsAndFixtures({
                   key={responseData.league.id}
                   className="flex-shrink-0 w-full snap-center flex justify-center items-center"
                 >
-                  <div className="flex flex-col justify-between p-2 w-full">
-                    <div className="flex w-full p-1">
+                  <div className="flex flex-col justify-between p-2 w-full bg-gray-700 rounded-lg shadow-lg">
+                    <div className="flex w-full p-1 text-xs">
                       <div className="w-1/12"></div>
                       <div className="w-3/12"></div>
-                      <div className="w-6/12 flex just-evenly">
+                      <div className="w-6/12 flex justify-evenly">
                         <div className="w-full text-center">M</div>
                         <div className="w-full text-center">W</div>
                         <div className="w-full text-center">D</div>
@@ -99,9 +101,9 @@ export default function StandingsAndFixtures({
                     {responseData.league.standings[0].map((team, j) => (
                       <Link
                         href={`/team/${team.team.id}`}
-                        key={j + team.team.name}
-                        className={`flex w-full p-1 hover:bg-slate-600 ${
-                          j % 2 === 0 ? "bg-slate-400" : ""
+                        key={team.team.name + j}
+                        className={`flex w-full p-1 hover:bg-gray-600 ${
+                          j % 2 === 0 ? "bg-gray-800" : ""
                         }`}
                       >
                         <div className="w-1/12 flex px-2 justify-center items-center">
@@ -135,20 +137,21 @@ export default function StandingsAndFixtures({
                           <div className="w-full text-center">
                             {team.goalsDiff}
                           </div>
-                          <div className="w-2/12 flex justify-center items-center">
-                            {team.form?.split("").map((char, i) => (
-                              <div
-                                key={char + i}
-                                className={`opacity-80 w-3 h-3 m-[1px] rounded-full ${
-                                  char === "L"
-                                    ? "bg-red-500"
-                                    : char === "D"
-                                    ? "bg-gray-500"
-                                    : "bg-green-500"
-                                }`}
-                              ></div>
-                            ))}
-                          </div>
+                        </div>
+                        {/* Moved Form Colors under the Form section */}
+                        <div className="w-2/12 flex justify-center items-center mt-2">
+                          {team.form?.split("").map((char, i) => (
+                            <div
+                              key={char + i}
+                              className={`opacity-80 w-3 h-3 m-[1px] rounded-full ${
+                                char === "L"
+                                  ? "bg-red-500"
+                                  : char === "D"
+                                  ? "bg-gray-500"
+                                  : "bg-green-500"
+                              }`}
+                            ></div>
+                          ))}
                         </div>
                       </Link>
                     ))}
@@ -158,28 +161,31 @@ export default function StandingsAndFixtures({
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="flex justify-center items-center lg:w-2/5 pt-10 lg:pr-10 pb-10 lg:pl-10">
-        <div className="flex flex-col justify-center items-center bg-black w-full text-neutral-100 rounded-3xl h-full">
-          <div className="w-full flex flex-col justify-center items-center">
-            <div className="p-2 font-bold">Upcoming fixtures</div>
-            <div className="flex flex-col w-full justify-center items-center pb-5 overflow-hidden">
-              {menuItems.map((leagueName, i) => {
-                return (
-                  activeTab === i &&
-                  filteredFixtures.map((league, j) => {
-                    if (league.name === leagueName) {
-                      return (
-                        <FixturesByLeague
-                          fixturesData={league.fixtures}
-                          key={league.name + j}
-                        />
-                      );
-                    }
-                  })
-                );
-              })}
+        {/* Upcoming Fixtures Section */}
+        <div className="flex-1 lg:w-2/5 pt-10 lg:pr-10 pb-10 lg:pl-10">
+          <div className="flex flex-col justify-center items-center bg-gray-800 w-full text-neutral-100 rounded-3xl h-full">
+            <div className="w-full flex flex-col justify-center items-center">
+              <div className="p-2 text-lg font-bold mb-4">
+                Upcoming Fixtures
+              </div>
+              <div className="flex flex-col w-full justify-center items-center pb-5 overflow-hidden">
+                {menuItems.map((leagueName, i) => {
+                  return (
+                    activeTab === i &&
+                    filteredFixtures.map((league, j) => {
+                      if (league.name === leagueName) {
+                        return (
+                          <FixturesByLeague
+                            fixturesData={league.fixtures}
+                            key={league.name + j}
+                          />
+                        );
+                      }
+                    })
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
