@@ -20,8 +20,8 @@ export default function FixtureItem({ match, index }: PageProps) {
   return (
     <Link
       href={`/match/${match.fixture.id}`}
-      className={`flex w-full p-2 justify-center items-center h-36 hover:bg-red-800/50
-                  ${index % 2 === 0 ? "bg-black/40" : ""}`}
+      className={`flex w-full p-2 justify-center items-center h-36 hover:bg-gray-500/50
+                  ${index % 2 === 0 ? "bg-gray-900/40" : ""}`}
     >
       <div className="w-1/3 flex flex-col justify-center items-center text-center">
         <Image
