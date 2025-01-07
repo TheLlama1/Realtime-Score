@@ -15,7 +15,8 @@ export default async function getFixturesForFiveLeagues(): Promise<
         league.name === "La Liga" ||
         league.name === "BundesLiga" ||
         league.name === "Serie A" ||
-        league.name === "Ligue 1"
+        league.name === "Ligue 1" ||
+        league.name === "Efbet League"
       ) {
         fixturesForFiveLeagues.push(league);
       }

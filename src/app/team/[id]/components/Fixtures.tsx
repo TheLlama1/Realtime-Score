@@ -162,7 +162,7 @@ export default function Fixtures({ fixturesByTeamId, teamId }: PageProps) {
           />
         </button>
       </div>
-      <div className="flex flex-col w-full justify-center items-center">
+      <div className="flex flex-col w-full justify-center items-center bg-gray-800">
         <div className="flex w-full justify-center items-center p-2 bg-gray-800">
           Results
         </div>
@@ -170,7 +170,7 @@ export default function Fixtures({ fixturesByTeamId, teamId }: PageProps) {
           <div
             key={i}
             className="flex w-full text-neutral-100 items-center h-36
-                        bg-gradient-to-r from-black/90 to-black/40 hover:bg-red-800"
+                        bg-gray-800 hover:bg-gray-500"
           >
             <Link
               href={`/match/${fixture.fixture.id}`}
@@ -254,7 +254,10 @@ export default function Fixtures({ fixturesByTeamId, teamId }: PageProps) {
         ))}
         {visibleItemsCount < fixturesByTeamId.length && (
           <div className="p2">
-            <button className="bg-black p-4" onClick={handleShowMore}>
+            <button
+              className="bg-gray-800 hover:gray-500 p-4"
+              onClick={handleShowMore}
+            >
               Show More
             </button>
           </div>

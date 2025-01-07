@@ -19,7 +19,6 @@ export default async function Home() {
           filteredFixtures={filteredFixtures}
         />
       </div>
-      <MyFooter />
     </>
   );
 }

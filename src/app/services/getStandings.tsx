@@ -33,7 +33,6 @@ export default async function getStandings(): Promise<Standing[]> {
   }
 
   const API_KEY: string = process.env.API_FOOTBALL_KEY as string;
-  console.log(API_KEY);
   const options = {
     method: "GET",
     headers: {

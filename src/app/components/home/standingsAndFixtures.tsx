@@ -11,7 +11,14 @@ export default function StandingsAndFixtures({
   standingsData: Standing[];
   filteredFixtures: AllFixtures[];
 }) {
-  const menuItems = ["EPL", "La Liga", "Bundesliga", "Serie A", "Ligue 1"];
+  const menuItems = [
+    "EPL",
+    "La Liga",
+    "Bundesliga",
+    "Serie A",
+    "Ligue 1",
+    "Efbet League",
+  ];
   const [activeTab, setActiveTab] = useState(0);
   const menuRef = useRef<HTMLDivElement>(null);
 
