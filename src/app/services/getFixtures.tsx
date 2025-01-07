@@ -7,7 +7,7 @@ const API_KEY = process.env.API_FOOTBALL_KEY as string;
 
 const leagues = [
   { league: 39, name: "EPL" },
-  { league: 148, name: "La Liga" },
+  { league: 140, name: "La Liga" },
   { league: 78, name: "Bundesliga" },
   { league: 135, name: "Serie A" },
   { league: 61, name: "Ligue 1" },
@@ -27,6 +27,7 @@ const leagues = [
   { league: 65, name: "Coupe de la Ligue" },
   { league: 66, name: "Coupe de France" },
   { league: 526, name: "Trophee des Champions" },
+  { league: 172, name: "Efbet League" },
 ];
 
 async function fetchFixturesByLeague(
@@ -44,22 +45,20 @@ async function fetchFixturesByLeague(
       revalidate: 60 * 60 * 24,
     },
   };
-  await fetch(url, options)
-    .then((response) => response.json())
-    .then((data) => {
-      const fixtures: Fixture[] = data.response;
-      if (fixtures === null || fixtures === undefined) {
-        return [];
-      } else {
-        return fixtures;
-      }
-    })
-    .catch((err) => {
-      console.error(
-        `Error fetching ${league} fixtures on year ${year}: ${err}`
-      );
-    });
-  return [];
+
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    const fixtures: Fixture[] = data.response;
+    if (fixtures === null || fixtures === undefined) {
+      return [];
+    } else {
+      return fixtures;
+    }
+  } catch (err) {
+    console.log(`Error fetching ${league} fixtures in year ${year}: ${err}`);
+    return [];
+  }
 }
 export default async function getFixtures(): Promise<AllFixtures[]> {
   if (USE_SAMPLE) {

@@ -7,6 +7,8 @@ import Link from "next/link";
 import Image from "next/image";
 import LocalTime from "@/app/components/localTime";
 import { useState } from "react";
+import Navbar from "@/app/components/navbar";
+
 import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
@@ -78,12 +80,15 @@ export default function Fixtures({ fixturesByTeamId, teamId }: PageProps) {
             }`}
           />
         </button>
-        <div className="flex transition-transform duration-500 w-full">
+        <div
+          className="flex transition-transform duration-500 w-full"
+          style={{ transform: `translateX(${getTranslateX(currentIndex)})` }}
+        >
           {firstItemsFixturesFixture.map((fixture, i) => (
             <Link
               href={`/match/${fixture.fixture.id}`}
               key={fixture.fixture.id}
-              className="w-full flex-shrink-0 flex text-neutral-100 items-center h-36 bg-gray-800 hover:black"
+              className="w-full flex-shrink-0 flex text-neutral-100 items-center h-36 bg-gray-800 hover:bg-gray-500"
             >
               <div className="flex flex-col justify-center items-center w-3/12 text-sm text-center">
                 <Image
@@ -170,7 +175,7 @@ export default function Fixtures({ fixturesByTeamId, teamId }: PageProps) {
             <Link
               href={`/match/${fixture.fixture.id}`}
               key={fixture.fixture.id}
-              className="w-full flex text-neutral-100 items-center h-36 bg-gray-800 hover:bg-gray-400"
+              className="w-full flex text-neutral-100 items-center h-36 bg-gray-800 hover:bg-gray-500"
             >
               <div className="flex flex-col justify-center items-center w-3/12 text-sm text-center">
                 <Image

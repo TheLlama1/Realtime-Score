@@ -1,5 +1,4 @@
 import React from "react";
-import MyNavbar from "@/app/components/navbar";
 import MyFooter from "@/app/components/footer";
 import StandingsAndFixtures from "./components/home/standingsAndFixtures";
 import { AllFixtures, Standing } from "@/types/apiFootball";
@@ -13,7 +12,6 @@ export default async function Home() {
 
   return (
     <>
-      <MyNavbar />
       <div className="flex flex-col w-full justify-center items-center md:p-10">
         {/* Pass both standings and fixtures to the component */}
         <StandingsAndFixtures
