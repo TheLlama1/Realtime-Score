@@ -28,6 +28,7 @@ const leagues = [
   { league: 66, name: "Coupe de France" },
   { league: 526, name: "Trophee des Champions" },
   { league: 172, name: "Efbet League" },
+  { league: 173, name: "Second league" },
 ];
 
 async function fetchFixturesByLeague(

@@ -3,12 +3,12 @@ import MyFooter from "@/app/components/footer";
 import StandingsAndFixtures from "./components/home/standingsAndFixtures";
 import { AllFixtures, Standing } from "@/types/apiFootball";
 import getStandings from "./services/getStandings";
-import getFixturesForFiveLeagues from "./services/getFixturesForFiveLeagues";
+import getFixturesForLeagues from "./services/getFixturesForLeagues";
 
 export default async function Home() {
   // Fetch standings and fixtures
   const standingsData: Standing[] = await getStandings();
-  const filteredFixtures: AllFixtures[] = await getFixturesForFiveLeagues();
+  const filteredFixtures: AllFixtures[] = await getFixturesForLeagues();
 
   return (
     <>

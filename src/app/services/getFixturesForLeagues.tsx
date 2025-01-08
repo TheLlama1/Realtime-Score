@@ -2,9 +2,7 @@ import { AllFixtures } from "@/types/apiFootball";
 import getFixtures from "./getFixtures";
 import moment from "moment";
 
-export default async function getFixturesForFiveLeagues(): Promise<
-  AllFixtures[]
-> {
+export default async function getFixturesForLeagues(): Promise<AllFixtures[]> {
   try {
     const allFixturesByLeague = await getFixtures();
 
@@ -16,7 +14,8 @@ export default async function getFixturesForFiveLeagues(): Promise<
         league.name === "BundesLiga" ||
         league.name === "Serie A" ||
         league.name === "Ligue 1" ||
-        league.name === "Efbet League"
+        league.name === "Efbet League" ||
+        league.name === "Second League"
       ) {
         fixturesForFiveLeagues.push(league);
       }

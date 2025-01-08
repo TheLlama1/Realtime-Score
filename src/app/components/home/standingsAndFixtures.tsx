@@ -18,6 +18,7 @@ export default function StandingsAndFixtures({
     "Serie A",
     "Ligue 1",
     "Efbet League",
+    "Second League",
   ];
   const [activeTab, setActiveTab] = useState(0);
   const menuRef = useRef<HTMLDivElement>(null);
