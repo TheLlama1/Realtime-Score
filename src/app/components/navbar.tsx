@@ -1,20 +1,31 @@
 "use client";
 
-import * as React from "react";
+import React, { useEffect, useState } from "react";
+import { auth } from "@/lib/firebase";
+import { signOut } from "firebase/auth";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { Team } from "@/types/apiFootball";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/app/components/ui/navigation-menu";
 
-export default function Navbar({ teamsData }: { teamsData: Team[] }) {
+export default function Navbar() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    // Listen to Firebase auth state
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setLoggedIn(!!user);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    window.location.href = "/"; // Redirect to home or login page
+  };
+
+  const handleDropdownToggle = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   return (
     <nav className="border-b border-gray-200">
       <div className="max-w-screen-xl mx-auto p-4 flex flex-wrap items-center justify-between">
@@ -25,73 +36,67 @@ export default function Navbar({ teamsData }: { teamsData: Team[] }) {
           </span>
         </a>
         <div className="flex items-center space-x-2 md:order-2">
-          {/* Navigation links */}
+          {/* Desktop Navbar Items */}
           <div className="hidden w-full md:flex md:items-center md:w-auto md:order-1">
             <ul className="flex flex-col p-4 mt-4 space-y-2 bg-gray-50 rounded-lg md:space-y-0 md:space-x-8 md:flex-row md:mt-0 md:bg-transparent md:border-0 dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
               <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                <button
+                  type="button"
+                  className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
                 >
                   Privacy
-                </a>
+                </button>
               </li>
-              <li>
-                <Link href="/sign-in">
-                  <button type="button">Sign in</button>
-                </Link>
-              </li>
+              {/* Profile Button & Dropdown (Only visible if logged in) */}
+              {loggedIn && (
+                <li className="relative">
+                  <button
+                    onClick={handleDropdownToggle}
+                    className="py-2 px-4 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-600"
+                  >
+                    Profile
+                  </button>
+                  {dropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-gray-800 shadow-lg rounded-lg">
+                      <ul className="p-2 space-y-2">
+                        <li>
+                          <Link
+                            href="/accountProfile"
+                            className="block px-4 py-2 text-white hover:bg-gray-600 rounded"
+                          >
+                            Account
+                          </Link>
+                        </li>
+                        <li>
+                          <button
+                            onClick={handleLogout}
+                            className="block px-4 py-2 text-white hover:bg-gray-600 rounded w-full text-left"
+                          >
+                            Log Out
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </li>
+              )}
+              {/* Sign In Button (If logged out) */}
+              {!loggedIn && (
+                <li>
+                  <Link href="/sign-in">
+                    <button
+                      type="button"
+                      className="py-2 px-4  text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
+                    >
+                      Sign In
+                    </button>
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
-
-          {/* Mobile Menu Toggle */}
-          <button
-            type="button"
-            className="md:hidden inline-flex items-center p-2 w-10 h-10 justify-center text-gray-500 rounded-lg hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 17 14"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M1 1h15M1 7h15M1 13h15"
-              ></path>
-            </svg>
-            <span className="sr-only">Open main menu</span>
-          </button>
         </div>
       </div>
     </nav>
   );
 }
-
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  );
-});
-ListItem.displayName = "ListItem";
