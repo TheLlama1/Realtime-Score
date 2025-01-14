@@ -11,16 +11,13 @@ type PageProps = {
 };
 
 export default async function Team({ params }: PageProps) {
-  const teamId = parseInt(params.id);
-  console.log("Raw Team ID:", params.id, "Parsed Team ID:", teamId);
+  const teamId = await parseInt(params.id);
 
   let teamInfo: Team | undefined;
   let fixturesByTeamId: Fixture[] = [];
 
   try {
-    // Fetch team info
     teamInfo = await getTeamInfoByTeamId(teamId);
-    console.log("Team Info:", teamInfo);
 
     // Fetch fixtures
     fixturesByTeamId = await getFixturesByTeamId(teamId);

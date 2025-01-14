@@ -2,33 +2,25 @@ import { AllFixtures, Fixture } from "@/types/apiFootball";
 import { USE_SAMPLE } from "../sampleData/newSample";
 import moment from "moment";
 import getFixturesSample from "../sampleData/getFixturesSample";
+import { Leaf } from "lucide-react";
 
 const API_KEY = process.env.API_FOOTBALL_KEY as string;
 
 const leagues = [
   { league: 39, name: "EPL" },
-  { league: 140, name: "La Liga" },
-  { league: 78, name: "Bundesliga" },
-  { league: 135, name: "Serie A" },
-  { league: 61, name: "Ligue 1" },
-  { league: 2, name: "Champions League" },
-  { league: 3, name: "Europa League" },
-  { league: 848, name: "Conference League" },
-  { league: 531, name: "Uefa Super Cup" },
-  { league: 15, name: "Fifa Club World Cup" },
   { league: 45, name: "FA Cup" },
   { league: 48, name: "Carabao Cup" },
-  { league: 528, name: "Community Shield" },
-  { league: 143, name: "Copa Del Rey" },
-  { league: 556, name: "Super Cup LaLiga" },
-  { league: 529, name: "Super Cup Bundesliga" },
-  { league: 547, name: "Super Cup Serie A" },
+  { league: 140, name: "La Liga" },
+  { league: 143, name: "Copa del Rey" },
+  { league: 78, name: "Bundesliga" },
+  { league: 81, name: "DFB Pokal" },
+  { league: 135, name: "Serie A" },
   { league: 137, name: "Coppa Italia" },
-  { league: 65, name: "Coupe de la Ligue" },
+  { league: 61, name: "Ligue 1" },
   { league: 66, name: "Coupe de France" },
-  { league: 526, name: "Trophee des Champions" },
   { league: 172, name: "Efbet League" },
-  { league: 173, name: "Second league" },
+  { league: 173, name: "Second League" },
+  { league: 174, name: "Bulgarian Cup" },
 ];
 
 async function fetchFixturesByLeague(
