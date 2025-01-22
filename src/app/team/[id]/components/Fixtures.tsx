@@ -111,12 +111,12 @@ export default function Fixtures({ fixturesByTeamId, teamId }: PageProps) {
                   <div className="flex flex-col justify-center items-center">
                     {fixture.score.penalty.home !== null ? (
                       <div className="flex flex-col justify-center items-center md:text-xs text-[8px]">
-                        <div>(et.){fixture.score.extratime.home}</div>
-                        <div>(pen.){fixture.score.penalty.home}</div>
+                        <div>Extra Time: {fixture.score.extratime.home}</div>
+                        <div>Penalty: {fixture.score.penalty.home}</div>
                       </div>
                     ) : fixture.score.extratime.home !== null ? (
                       <div className="text-sm">
-                        (et.){fixture.score.extratime.home}
+                        Extra Time:{fixture.score.extratime.home}
                       </div>
                     ) : null}
                   </div>
@@ -124,12 +124,12 @@ export default function Fixtures({ fixturesByTeamId, teamId }: PageProps) {
                   <div className="flex flex-col justify-center items-center">
                     {fixture.score.penalty.away !== null ? (
                       <div className="flex flex-col justify-center items-center md:text-xs text-[8px]">
-                        <div>(et.){fixture.score.extratime.away}</div>
-                        <div>(pen.){fixture.score.penalty.away}</div>
+                        <div>Extra Time: {fixture.score.extratime.away}</div>
+                        <div>Penalties: {fixture.score.penalty.away}</div>
                       </div>
                     ) : fixture.score.extratime.away !== null ? (
                       <div className="text-sm">
-                        (et.){fixture.score.extratime.away}
+                        Extra Time{fixture.score.extratime.away}
                       </div>
                     ) : null}
                   </div>
@@ -199,12 +199,12 @@ export default function Fixtures({ fixturesByTeamId, teamId }: PageProps) {
                     {fixture.score.fulltime.home}
                     {fixture.score.penalty.home !== null ? (
                       <div className="flex flex-col justify-center items-center md:text-xs text-[8px]">
-                        <div>(et.){fixture.score.extratime.home}</div>
-                        <div>(pen.){fixture.score.penalty.home}</div>
+                        <div>Extra Time: {fixture.score.extratime.home}</div>
+                        <div>Penalties: {fixture.score.penalty.home}</div>
                       </div>
                     ) : fixture.score.extratime.home !== null ? (
                       <div className="text-sm">
-                        (et.){fixture.score.extratime.home}
+                        Extra Time: {fixture.score.extratime.home}
                       </div>
                     ) : null}
                   </div>
@@ -213,8 +213,8 @@ export default function Fixtures({ fixturesByTeamId, teamId }: PageProps) {
                     {fixture.score.fulltime.away}
                     {fixture.score.penalty.away !== null ? (
                       <div className="flex flex-col justify-center items-center md:text-xs text-[8px]">
-                        <div>(et.){fixture.score.extratime.away}</div>
-                        <div>(pen.){fixture.score.penalty.away}</div>
+                        <div>Extra Time:{fixture.score.extratime.away}</div>
+                        <div>Penalties: {fixture.score.penalty.away}</div>
                       </div>
                     ) : fixture.score.extratime.away !== null ? (
                       <div className="text-sm">

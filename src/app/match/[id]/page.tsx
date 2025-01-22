@@ -25,81 +25,77 @@ export default async function Match({ params }: PageProps) {
     );
   }
   return (
-    <div className="flex flex-col w-full justify-center items-center py-10 md:p-10 text-neutral-100 ">
-      <div className="flex w-full max-w-7xl items-center justify-center perspective pb-10 md:prb-20">
-        <div className="w-1/3 flex justify-center rounded-full animate-logo-pop-left logo-shadow">
+    <div className="flex flex-col w-full justify-center items-center py-10 md:p-10 text-neutral-100">
+      {/* Match Info */}
+      <div className="flex w-full max-w-7xl items-center justify-center perspective pb-10 md:pb-20">
+        <div className="w-1/4 flex justify-center rounded-full animate-logo-pop-left logo-shadow">
           <Link href={`../team/${fixtureByFixtureId.teams.home.id}`}>
             <Image
               src={fixtureByFixtureId.teams.home.logo}
               alt="HomeLogoMatch"
-              width={250}
-              height={250}
+              width={150}
+              height={150}
             />
           </Link>
         </div>
-        <div className="w-1/3 flex justify-center items-center flex-col h-56">
-          <div className="h-1/5 flex justify-center items-center text-sm md:text-xl text-center">
+        <div className="w-1/2 flex flex-col justify-center items-center text-center">
+          <div className="text-sm md:text-lg">
             <LocalTime fixture={fixtureByFixtureId} />
           </div>
-          <div className="h-3/5 flex justify-center items-center md:text-5xl text-2xl">
-            <div className="flex flex-col justify-center items-center">
+          <div className="flex items-center md:text-4xl text-xl font-semibold">
+            <div className="flex flex-col items-center">
               {fixtureByFixtureId.score.fulltime.home}
-              {fixtureByFixtureId.score.penalty.home !== null ? (
-                <div className="flex flex-col justify-center items-center text-sm">
-                  <div>(et.){fixtureByFixtureId.score.extratime.home}</div>
-                  <div>(pen.){fixtureByFixtureId.score.penalty.home}</div>
-                </div>
-              ) : fixtureByFixtureId.score.extratime.home !== null ? (
+              {fixtureByFixtureId.score.penalty.home !== null && (
                 <div className="text-sm">
-                  (et. ){fixtureByFixtureId.score.extratime.home}
+                  <div>
+                    Extra Time {fixtureByFixtureId.score.extratime.home}
+                  </div>
+                  <div>Penalty {fixtureByFixtureId.score.penalty.home}</div>
                 </div>
-              ) : null}
+              )}
             </div>
-            -
-            <div>
-              <div className="flex flex-col justify-center items-center">
-                {fixtureByFixtureId.score.fulltime.away}
-                {fixtureByFixtureId.score.penalty.away !== null ? (
-                  <div className="flex flex-col justify-center items-center text-sm">
-                    <div>(et.){fixtureByFixtureId.score.extratime.away}</div>
-                    <div>(pen.){fixtureByFixtureId.score.penalty.away}</div>
+            <span className="px-2">-</span>
+            <div className="flex flex-col items-center">
+              {fixtureByFixtureId.score.fulltime.away}
+              {fixtureByFixtureId.score.penalty.away !== null && (
+                <div className="text-sm">
+                  <div>
+                    Extra Time: {fixtureByFixtureId.score.extratime.away}
                   </div>
-                ) : fixtureByFixtureId.score.extratime.away !== null ? (
-                  <div className="text-sm">
-                    (et. ){fixtureByFixtureId.score.extratime.away}
-                  </div>
-                ) : null}
-              </div>
+                  <div>Penalties: {fixtureByFixtureId.score.penalty.away}</div>
+                </div>
+              )}
             </div>
           </div>
-          <div className="h-1/5 flex justify-center items-center"></div>
         </div>
-        <div className="w-1/3 flex justify-center rounded-full animate-logo-pop-right logo-shadow">
+        <div className="w-1/4 flex justify-center rounded-full animate-logo-pop-right logo-shadow">
           <Link href={`../team/${fixtureByFixtureId.teams.away.id}`}>
             <Image
               src={fixtureByFixtureId.teams.away.logo}
               alt="AwayLogoMatch"
-              width={250}
-              height={250}
+              width={150}
+              height={150}
             />
           </Link>
         </div>
       </div>
-      <div className="flex flex-col w-full justify-center items-center py-5 md:p-10 bg-gray-800">
-        <div className="flex flex-col justify-center items-center py-2">
-          <div>{fixtureByFixtureId.league.name}</div>
-          <div>{fixtureByFixtureId.league.round}</div>
-        </div>
-        <div className="flex justify-center items-center w-full">
-          <div className="flex flex-col w-1/2 justify-center items-center p-1">
-            <div className="text-xl md:text-2xl text-center">
-              {fixtureByFixtureId.teams.home.name}
-            </div>
+
+      {/* Additional Match Info */}
+      <div className="flex flex-col w-full max-w-5xl bg-gray-800 rounded-lg py-5 px-3 text-center shadow-lg">
+        <div className="py-2">
+          <div className="text-lg md:text-xl font-semibold">
+            {fixtureByFixtureId.league.name}
           </div>
-          <div className="flex flex-col w-1/2 justify-center items-center p-1">
-            <div className="text-xl md:text-2xl text-center">
-              {fixtureByFixtureId.teams.away.name}
-            </div>
+          <div className="text-sm text-gray-400">
+            {fixtureByFixtureId.league.round}
+          </div>
+        </div>
+        <div className="flex w-full justify-between text-lg md:text-xl mt-3">
+          <div className="w-1/2 text-center">
+            {fixtureByFixtureId.teams.home.name}
+          </div>
+          <div className="w-1/2 text-center">
+            {fixtureByFixtureId.teams.away.name}
           </div>
         </div>
       </div>

@@ -8,9 +8,9 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBWt075Zs4ppyri4b1-nDXaDCbpvVDEYHk",
-  authDomain: "realtime-score-58f97.firebaseapp.com",
-  projectId: "realtime-score-58f97",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY as string,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN as string,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID as string,
   storageBucket: "realtime-score-58f97.firebasestorage.app",
   messagingSenderId: "516422995074",
   appId: "1:516422995074:web:07f677f1b1ddc796a9f89b",

@@ -18,8 +18,7 @@ export default async function getFixturesForLeagues(): Promise<AllFixtures[]> {
         league.name === "Bundesliga" ||
         league.name === "Serie A" ||
         league.name === "Ligue 1" ||
-        league.name === "Efbet League" ||
-        league.name === "Second League"
+        league.name === "Efbet League"
       ) {
         console.log(`Including league: ${league.name}`);
         fixturesForLeagues.push(league);

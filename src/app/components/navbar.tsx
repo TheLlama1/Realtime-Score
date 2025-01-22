@@ -4,15 +4,23 @@ import React, { useEffect, useState } from "react";
 import { auth } from "@/lib/firebase";
 import { signOut } from "firebase/auth";
 import Link from "next/link";
+import { isAdmin } from "@/lib/admin"; // Import the isAdmin function
 
 export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
     // Listen to Firebase auth state
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setLoggedIn(!!user);
+      if (user) {
+        setLoggedIn(true);
+        setUserId(user.uid); // Set the current user ID
+      } else {
+        setLoggedIn(false);
+        setUserId(null);
+      }
     });
     return () => unsubscribe();
   }, []);
@@ -40,6 +48,16 @@ export default function Navbar() {
           <div className="hidden w-full md:flex md:items-center md:w-auto md:order-1">
             <ul className="flex flex-col p-4 mt-4 space-y-2 bg-gray-50 rounded-lg md:space-y-0 md:space-x-8 md:flex-row md:mt-0 md:bg-transparent md:border-0 dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
               <li>
+                <Link href="/custom">
+                  <button
+                    type="button"
+                    className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
+                  >
+                    Unofficial Games
+                  </button>
+                </Link>
+              </li>
+              <li>
                 <button
                   type="button"
                   className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
@@ -47,6 +65,19 @@ export default function Navbar() {
                   Privacy
                 </button>
               </li>
+              {/* Admin Button */}
+              {loggedIn && userId && isAdmin(userId) && (
+                <li>
+                  <Link href="/admin">
+                    <button
+                      type="button"
+                      className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
+                    >
+                      Admin
+                    </button>
+                  </Link>
+                </li>
+              )}
               {/* Profile Button & Dropdown (Only visible if logged in) */}
               {loggedIn && (
                 <li className="relative">
@@ -86,7 +117,7 @@ export default function Navbar() {
                   <Link href="/sign-in">
                     <button
                       type="button"
-                      className="py-2 px-4  text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
+                      className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
                     >
                       Sign In
                     </button>
