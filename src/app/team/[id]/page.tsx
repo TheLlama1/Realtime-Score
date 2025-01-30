@@ -3,6 +3,7 @@ import type { Fixture, Team } from "@/types/apiFootball";
 import Image from "next/image";
 import Fixtures from "./components/Fixtures";
 import getFixturesByTeamId from "@/app/services/getFixturesByTeamId";
+import FavouriteButton from "./components/Favourite"; // Import the client component
 
 type PageProps = {
   params: {
@@ -11,7 +12,7 @@ type PageProps = {
 };
 
 export default async function Team({ params }: PageProps) {
-  const teamId = await parseInt(params.id);
+  const teamId = parseInt(params.id);
 
   let teamInfo: Team | undefined;
   let fixturesByTeamId: Fixture[] = [];
@@ -42,6 +43,7 @@ export default async function Team({ params }: PageProps) {
       <div className="flex flex-col max-w-7xl p-5 w-full md:flex-row">
         {/* Team Info Section */}
         <div className="flex flex-col md:w-1/3 justify-center items-center bg-gray-800">
+          <FavouriteButton teamId={teamId} />
           {teamInfo.team?.logo ? (
             <Image
               src={teamInfo.team.logo}
