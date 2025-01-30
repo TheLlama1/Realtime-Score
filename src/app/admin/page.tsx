@@ -127,15 +127,15 @@ const AdminPage: React.FC<AdminPageProps> = () => {
 
   const updateFixtureResult = async (
     id: string,
-    result: string,
-    awayGoals: any
+    homeGoals: number,
+    awayGoals: number
   ) => {
     try {
       const fixtureRef = doc(db, "leagues", selectedLeague, "fixtures", id);
-      await updateDoc(fixtureRef, { result });
+      await updateDoc(fixtureRef, { homeGoals, awayGoals });
       alert("Fixture result updated successfully!");
       const updatedFixtures = fixtures.map((fixture) =>
-        fixture.id === id ? { ...fixture, result } : fixture
+        fixture.id === id ? { ...fixture, homeGoals, awayGoals } : fixture
       );
       setFixtures(updatedFixtures);
     } catch (error) {
@@ -295,8 +295,8 @@ const AdminPage: React.FC<AdminPageProps> = () => {
               onClick={() =>
                 updateFixtureResult(
                   fixture.id,
-                  fixture.homeGoals,
-                  fixture.awayGoals
+                  Number(fixture.homeGoals),
+                  Number(fixture.awayGoals)
                 )
               }
               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"

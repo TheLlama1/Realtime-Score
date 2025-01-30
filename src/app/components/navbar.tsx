@@ -58,12 +58,14 @@ export default function Navbar() {
                 </Link>
               </li>
               <li>
-                <button
-                  type="button"
-                  className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
-                >
-                  Privacy
-                </button>
+                <Link href="/privacyPolicy">
+                  <button
+                    type="button"
+                    className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
+                  >
+                    Privacy
+                  </button>
+                </Link>
               </li>
               {/* Admin Button */}
               {loggedIn && userId && isAdmin(userId) && (
