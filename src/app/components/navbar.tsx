@@ -34,7 +34,6 @@ export default function Navbar() {
   const handleDropdownToggle = () => {
     setDropdownOpen(!dropdownOpen);
   };
-  const apiKey = "be3d3eb07566fe84d171b0b192e68a79";
 
   return (
     <nav className="border-b border-gray-200">
