@@ -3,7 +3,7 @@ import type { Fixture, Team } from "@/types/apiFootball";
 import Image from "next/image";
 import Fixtures from "./components/Fixtures";
 import getFixturesByTeamId from "@/app/services/getFixturesByTeamId";
-import FavouriteButton from "./components/Favourite"; // Import the client component
+import FavouriteButton from "./components/FavouriteButton"; // Import the client component
 
 type PageProps = {
   params: {
