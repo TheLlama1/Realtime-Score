@@ -29,6 +29,8 @@ const Page = () => {
   const [teams, setTeams] = useState<Team[]>([]);
   const [fixtures, setFixtures] = useState<Fixture[]>([]);
   const [finishedFixtures, setFinishedFixtures] = useState<Fixture[]>([]);
+  const [showAllLeagues, setShowAllLeagues] = useState(false);
+  const [showAllTeams, setShowAllTeams] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,58 +88,98 @@ const Page = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Admin added games</h1>
+      <h1 className="text-3xl font-bold mb-4">Admin Added Games</h1>
 
-      <h2 className="text-2xl font-semibold mt-6 mb-4">Leagues</h2>
-      <ul className="mb-6">
-        {leagues.map((league) => (
-          <li key={league.id} className="border p-2 mb-2">
-            {league.name}
-          </li>
-        ))}
-      </ul>
+      <section>
+        <h2 className="text-2xl font-semibold mt-6 mb-4">Upcoming Fixtures</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {fixtures
+            .filter((fixture) => new Date(fixture.date) >= new Date())
+            .map((fixture) => (
+              <div
+                key={`${fixture.id}_${fixture.leagueId}`}
+                className="border p-4 rounded-lg shadow-lg bg-gray-800 text-white"
+              >
+                <div className="font-bold">
+                  {fixture.homeTeam} vs {fixture.awayTeam}
+                </div>
+                <div className="text-sm">
+                  {new Date(fixture.date).toLocaleDateString()}
+                </div>
+              </div>
+            ))}
+        </div>
+      </section>
 
-      <h2 className="text-2xl font-semibold mt-6 mb-4">Teams</h2>
-      <ul className="mb-6">
-        {teams.map((team) => (
-          <li key={`${team.id}_${team.leagueId}`} className="border p-2 mb-2">
-            {team.name} - {getLeagueNameById(team.leagueId)}
-          </li>
-        ))}
-      </ul>
-
-      <h2 className="text-2xl font-semibold mt-6 mb-4">Upcoming Fixtures</h2>
-      <ul className="mb-6">
-        {fixtures
-          .filter((fixture) => new Date(fixture.date) >= new Date())
-          .map((fixture) => (
-            <li
+      <section>
+        <h2 className="text-2xl font-semibold mt-6 mb-4">Finished Games</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {finishedFixtures.map((fixture) => (
+            <div
               key={`${fixture.id}_${fixture.leagueId}`}
-              className="border p-2 mb-2"
+              className="border p-4 rounded-lg shadow-lg bg-gray-800 text-white"
             >
-              {fixture.homeTeam} vs {fixture.awayTeam} on{" "}
-              {new Date(fixture.date).toLocaleDateString()}
-            </li>
+              <div className="font-bold">
+                {fixture.homeTeam}{" "}
+                {fixture.homeGoals !== undefined ? fixture.homeGoals : ""} -{" "}
+                {fixture.awayGoals !== undefined ? fixture.awayGoals : ""}{" "}
+                {fixture.awayTeam}
+              </div>
+              <div className="text-sm">
+                {new Date(fixture.date).toLocaleDateString()}
+              </div>
+              {fixture.homeGoals === undefined ||
+              fixture.awayGoals === undefined ? (
+                <div className="text-red-500">Result not available yet</div>
+              ) : null}
+            </div>
           ))}
-      </ul>
+        </div>
+      </section>
 
-      <h2 className="text-2xl font-semibold mt-6 mb-4">Finished Games</h2>
-      <ul>
-        {finishedFixtures.map((fixture) => (
-          <li
-            key={`${fixture.id}_${fixture.leagueId}`}
-            className="border p-2 mb-2"
-          >
-            {fixture.homeTeam}{" "}
-            {fixture.homeGoals !== undefined ? fixture.homeGoals : ""} -{" "}
-            {fixture.awayGoals !== undefined ? fixture.awayGoals : ""}{" "}
-            {fixture.awayTeam} on {new Date(fixture.date).toLocaleDateString()}{" "}
-            {fixture.homeGoals === undefined || fixture.awayGoals === undefined
-              ? "(Result not available yet)"
-              : ""}
-          </li>
-        ))}
-      </ul>
+      <section>
+        <h2 className="text-2xl font-semibold mt-6 mb-4">Leagues</h2>
+        <button
+          onClick={() => setShowAllLeagues(!showAllLeagues)}
+          className="mb-4 py-2 px-4 bg-gray-800 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 focus:outline-none"
+        >
+          {showAllLeagues ? "Hide All Leagues" : "Show All Leagues"}
+        </button>
+        {showAllLeagues && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {leagues.map((league) => (
+              <div
+                key={league.id}
+                className="border p-4 rounded-lg shadow-lg bg-gray-800 text-white"
+              >
+                {league.name}
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold mt-6 mb-4">Teams</h2>
+        <button
+          onClick={() => setShowAllTeams(!showAllTeams)}
+          className="mb-4 py-2 px-4 bg-gray-800 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 focus:outline-none"
+        >
+          {showAllTeams ? "Hide All Teams" : "Show All Teams"}
+        </button>
+        {showAllTeams && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {teams.map((team) => (
+              <div
+                key={`${team.id}_${team.leagueId}`}
+                className="border p-4 rounded-lg shadow-lg bg-gray-800 text-white"
+              >
+                {team.name} - {getLeagueNameById(team.leagueId)}
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 };

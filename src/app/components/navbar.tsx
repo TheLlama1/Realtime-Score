@@ -11,6 +11,7 @@ export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     // Listen to Firebase auth state
@@ -35,29 +36,145 @@ export default function Navbar() {
     setDropdownOpen(!dropdownOpen);
   };
 
+  const handleMobileMenuToggle = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
   return (
     <nav className="border-b border-gray-200">
       <div className="max-w-screen-xl mx-auto p-4 flex flex-wrap items-center justify-between">
         <a href="/" className="flex items-center space-x-3">
-          <img src="/images/logo.png" className="h-20" alt="Realtime" />
-          <span className="text-2xl font-semibold dark:text-white">
+          <img src="/images/logo.png" className="h-12 md:h-20" alt="Realtime" />
+          <span className="text-2xl font-semibold dark:text-white hidden md:block">
             Realtime Score
           </span>
         </a>
         <div className="flex items-center space-x-2 md:order-2">
-          {/* Desktop Navbar Items */}
-          <div className="hidden w-full md:flex md:items-center md:w-auto md:order-1">
-            <ul className="flex flex-col p-4 mt-4 space-y-2 bg-gray-50 rounded-lg md:space-y-0 md:space-x-8 md:flex-row md:mt-0 md:bg-transparent md:border-0 dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
+          <div className="md:hidden">
+            <SearchBar />
+          </div>
+          <button
+            className="block md:hidden text-white hover:text-gray-400 focus:outline-none"
+            onClick={handleMobileMenuToggle}
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d={
+                  mobileMenuOpen
+                    ? "M6 18L18 6M6 6l12 12"
+                    : "M4 6h16M4 12h16m-7 6h7"
+                }
+              />
+            </svg>
+          </button>
+        </div>
+
+        {/* Desktop Navbar Items */}
+        <div className="hidden md:flex items-center w-full md:w-auto md:order-1 space-x-4">
+          <div className="w-full md:w-auto">
+            <SearchBar />
+          </div>
+          <ul className="flex space-x-4">
+            <li>
+              <Link href="/custom">
+                <button
+                  type="button"
+                  className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
+                >
+                  Unofficial Games
+                </button>
+              </Link>
+            </li>
+            <li>
+              <Link href="/privacyPolicy">
+                <button
+                  type="button"
+                  className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
+                >
+                  Privacy
+                </button>
+              </Link>
+            </li>
+            {/* Admin Button */}
+            {loggedIn && userId && isAdmin(userId) && (
               <li>
-                <div>
-                  <SearchBar />
-                </div>
+                <Link href="/admin">
+                  <button
+                    type="button"
+                    className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
+                  >
+                    Admin
+                  </button>
+                </Link>
               </li>
+            )}
+            {/* Profile Button & Dropdown (Only visible if logged in) */}
+            {loggedIn && (
+              <li className="relative">
+                <button
+                  onClick={handleDropdownToggle}
+                  className="py-2 px-4 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-600"
+                >
+                  Profile
+                </button>
+                {dropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-gray-800 shadow-lg rounded-lg">
+                    <ul className="p-2 space-y-2">
+                      <li>
+                        <Link
+                          href="/accountProfile"
+                          className="block px-4 py-2 text-white hover:bg-gray-600 rounded"
+                        >
+                          Account
+                        </Link>
+                      </li>
+                      <li>
+                        <button
+                          onClick={handleLogout}
+                          className="block px-4 py-2 text-white hover:bg-gray-600 rounded w-full text-left"
+                        >
+                          Log Out
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </li>
+            )}
+            {/* Sign In Button (If logged out) */}
+            {!loggedIn && (
+              <li>
+                <Link href="/sign-in">
+                  <button
+                    type="button"
+                    className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
+                  >
+                    Sign In
+                  </button>
+                </Link>
+              </li>
+            )}
+          </ul>
+        </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden w-full mt-4 space-y-2">
+            <ul className="space-y-2">
               <li>
                 <Link href="/custom">
                   <button
                     type="button"
-                    className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
+                    className="w-full py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
                   >
                     Unofficial Games
                   </button>
@@ -67,7 +184,7 @@ export default function Navbar() {
                 <Link href="/privacyPolicy">
                   <button
                     type="button"
-                    className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
+                    className="w-full py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
                   >
                     Privacy
                   </button>
@@ -79,7 +196,7 @@ export default function Navbar() {
                   <Link href="/admin">
                     <button
                       type="button"
-                      className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
+                      className="w-full py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
                     >
                       Admin
                     </button>
@@ -91,12 +208,12 @@ export default function Navbar() {
                 <li className="relative">
                   <button
                     onClick={handleDropdownToggle}
-                    className="py-2 px-4 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-600"
+                    className="w-full py-2 px-4 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-600"
                   >
                     Profile
                   </button>
                   {dropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-gray-800 shadow-lg rounded-lg">
+                    <div className="w-full mt-2 bg-gray-800 shadow-lg rounded-lg">
                       <ul className="p-2 space-y-2">
                         <li>
                           <Link
@@ -125,7 +242,7 @@ export default function Navbar() {
                   <Link href="/sign-in">
                     <button
                       type="button"
-                      className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
+                      className="w-full py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
                     >
                       Sign In
                     </button>
@@ -134,7 +251,7 @@ export default function Navbar() {
               )}
             </ul>
           </div>
-        </div>
+        )}
       </div>
     </nav>
   );

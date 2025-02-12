@@ -19,33 +19,39 @@ const SearchBar: React.FC = () => {
     { name: "Efbet League", id: 172 },
   ];
 
-  const leagueId = "39";
-  const season = "2022";
+  const season = "2024";
 
   useEffect(() => {
     const fetchTeams = async () => {
       try {
         const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-        const response = await fetch(
-          `https://v3.football.api-sports.io/teams?league=${leagueId}&season=${season}`,
-          {
-            headers: { "x-apisports-key": apiKey || "" },
-          }
+        const requests = leagues.map((league) =>
+          fetch(
+            `https://v3.football.api-sports.io/teams?league=${
+              league.id
+            }&season=${2024}`,
+            {
+              headers: { "x-apisports-key": apiKey || "" },
+            }
+          ).then((response) => response.json())
         );
-        const data = await response.json();
-        setTeams(
+
+        const responses = await Promise.all(requests);
+        const allTeams = responses.flatMap((data) =>
           data.response.map((team: any) => ({
             id: team.team.id,
             name: team.team.name,
           }))
         );
+
+        setTeams(allTeams);
       } catch (error) {
         console.error("Error fetching teams:", error);
       }
     };
 
     fetchTeams();
-  }, [leagueId, season]);
+  }, [season]);
 
   useEffect(() => {
     if (searchTerm.length >= 3) {
@@ -73,11 +79,7 @@ const SearchBar: React.FC = () => {
             const teamId = team.id.toString();
             return (
               <div key={team.id} className="p-2 hover:bg-gray-500">
-                <a
-                  href={teamId.startsWith("team/") ? teamId : `team/${teamId}`}
-                >
-                  {team.name}
-                </a>
+                <a href={`team/${teamId}`}>{team.name}</a>
               </div>
             );
           })}

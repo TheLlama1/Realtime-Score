@@ -115,4 +115,51 @@ type AllFixtures = {
   name: string;
   fixtures: Fixture[];
 };
-export type { Standing, Team, AllFixtures, Fixture };
+
+type Player = {
+  id: number;
+  name: string;
+  number: number;
+  pos: string;
+  grid: string;
+};
+
+type Lineup = {
+  team: {
+    id: number;
+    name: string;
+    logo: string;
+  };
+  coach: {
+    id: number;
+    name: string;
+  };
+  formation: string;
+  startXI: Player[];
+  substitutes: Player[];
+};
+
+type Event = {
+  time: {
+    elapsed: number;
+    extra: number;
+  };
+  team: {
+    id: number;
+    name: string;
+    logo: string;
+  };
+  player: {
+    id: number;
+    name: string;
+  };
+  assist: {
+    id: number;
+    name: string;
+  };
+  type: string;
+  detail: string;
+  comments: string;
+};
+
+export type { Standing, Team, AllFixtures, Fixture, Lineup, Event };

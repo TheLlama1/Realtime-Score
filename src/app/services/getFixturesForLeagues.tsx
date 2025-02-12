@@ -40,9 +40,10 @@ export default async function getFixturesForLeagues(): Promise<AllFixtures[]> {
               "day"
             );
             if (!isValidDate) {
-              console.log(
-                `Excluding outdated fixture: ${fixture.fixture.date} for league: ${league.name}`
-              );
+              console
+                .log
+                //`Excluding outdated fixture: ${fixture.fixture.date} for league: ${league.name}`
+                ();
             }
             return isValidDate;
           })
