@@ -1,31 +1,51 @@
-import { Fixture } from "@/types/apiFootball";
+import axios from "axios";
+import { AllFixtures, Fixture } from "@/types/apiFootball";
 
-const API_KEY = process.env.API_FOOTBALL_KEY as string;
+const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+const apiUrl = "https://v3.football.api-sports.io";
 
-async function getLiveFixtures(): Promise<Fixture[]> {
-  const liveUrl = `https://v3.football.api-sports.io/fixtures?live=all`; // URL to fetch live fixtures
-  const options = {
-    method: "GET",
-    headers: {
-      "x-apisports-key": API_KEY,
-    },
-  };
-
+const getLiveFixtures = async (): Promise<AllFixtures[]> => {
   try {
-    const response = await fetch(liveUrl, options);
-    const data = await response.json();
-    const liveFixtures: Fixture[] = data.response;
+    const response = await axios.get(`${apiUrl}/fixtures`, {
+      params: {
+        live: "all",
+      },
+      headers: {
+        "x-apisports-key": apiKey,
+      },
+    });
 
-    if (liveFixtures === null || liveFixtures === undefined) {
-      return [];
-    } else {
-      console.log("Live fixtures:", liveFixtures);
-      return liveFixtures;
-    }
-  } catch (err) {
-    console.log(`Error fetching live fixtures: ${err}`);
+    const liveFixtures: Fixture[] = response.data.response;
+
+    // Log API response for debugging
+    console.log("API Response:", response.data);
+
+    // Group fixtures by league
+    const groupedFixtures = liveFixtures.reduce((acc: any, fixture) => {
+      const leagueName = fixture.league.name;
+      if (!acc[leagueName]) {
+        acc[leagueName] = [];
+      }
+      acc[leagueName].push(fixture);
+      return acc;
+    }, {});
+
+    // Convert grouped fixtures to AllFixtures format
+    const allFixtures: AllFixtures[] = Object.keys(groupedFixtures).map(
+      (leagueName) => ({
+        name: leagueName,
+        fixtures: groupedFixtures[leagueName],
+      })
+    );
+
+    // Log grouped fixtures for debugging
+    console.log("Grouped Fixtures:", allFixtures);
+
+    return allFixtures;
+  } catch (error) {
+    console.error("Error fetching live fixtures:", error);
     return [];
   }
-}
+};
 
 export default getLiveFixtures;

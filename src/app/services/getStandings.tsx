@@ -51,6 +51,7 @@ export default async function getStandings(): Promise<Standing[]> {
     { name: "Serie A", id: 135 },
     { name: "Ligue 1", id: 61 },
     { name: "Efbet League", id: 172 },
+    { name: "Second League", id: 173 },
   ];
 
   for (const league of leagues) {

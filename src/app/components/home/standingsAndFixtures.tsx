@@ -3,6 +3,8 @@ import { AllFixtures, Standing } from "@/types/apiFootball";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import FixturesByLeague from "./fixturesByLeague";
+import getLiveFixtures from "@/app/services/getLiveFixtures";
+import LiveFixtureItem from "@/app/components/home/liveFixturesItem";
 
 export default function StandingsAndFixtures({
   standingsData,
@@ -18,8 +20,10 @@ export default function StandingsAndFixtures({
     "Serie A",
     "Ligue 1",
     "Efbet League",
+    "Second League",
   ];
   const [activeTab, setActiveTab] = useState(0);
+  const [liveFixtures, setLiveFixtures] = useState<AllFixtures[]>([]);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const scrollToTab = (index: number) => {
@@ -38,6 +42,16 @@ export default function StandingsAndFixtures({
     setActiveTab(index);
     scrollToTab(index);
   };
+
+  const fetchLiveFixtures = async () => {
+    const liveFixturesData = await getLiveFixtures();
+    console.log("Live Fixtures Data:", liveFixturesData); // Debug log for live fixtures data
+    setLiveFixtures(liveFixturesData);
+  };
+
+  useEffect(() => {
+    fetchLiveFixtures();
+  }, []);
 
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
@@ -196,6 +210,32 @@ export default function StandingsAndFixtures({
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Live Fixtures Section */}
+      <div className="mt-10 flex flex-col w-full bg-gray-700 rounded-lg shadow-lg p-4">
+        <div className="text-lg font-bold mb-4">Live Fixtures</div>
+        {liveFixtures.length > 0 ? (
+          liveFixtures.map((league, i) => (
+            <div
+              key={i}
+              className="w-full flex flex-col justify-center items-center pb-5"
+            >
+              <div className="p-2 text-xl font-bold text-center mb-4 bg-gray-800 w-full rounded-lg">
+                {league.name}
+              </div>
+              {league.fixtures.map((fixture, j) => (
+                <LiveFixtureItem
+                  match={fixture}
+                  index={j}
+                  key={fixture.fixture.id + j}
+                />
+              ))}
+            </div>
+          ))
+        ) : (
+          <div className="text-center p-2">No live fixtures available</div>
+        )}
       </div>
     </div>
   );

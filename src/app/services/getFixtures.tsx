@@ -19,6 +19,7 @@ const leagues = [
   { league: 61, name: "Ligue 1" },
   { league: 66, name: "Coupe de France" },
   { league: 172, name: "Efbet League" },
+  { league: 173, name: "Second League" },
   { league: 174, name: "Bulgarian Cup" },
 ];
 
