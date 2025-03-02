@@ -115,7 +115,7 @@ export default async function Match({ params }: PageProps) {
           <h3 className="text-lg md:text-xl font-semibold">In-Game Events</h3>
           <div className="bg-gray-900 rounded-lg p-4 shadow-md">
             <ul className="mt-2 space-y-1">
-              {events.map((event: any) => {
+              {events.map((event: any, index: number) => {
                 let eventDescription = "";
                 if (event.type === "Goal") {
                   eventDescription = `GOAL ${event.player.name} ${
@@ -132,7 +132,7 @@ export default async function Match({ params }: PageProps) {
                 }
                 return (
                   <li
-                    key={event.time.elapsed + event.team.id + event.player.id}
+                    key={`${event.time.elapsed}-${event.team.id}-${event.player.id}-${index}`}
                     className="hover:text-gray-600"
                   >
                     <span className="font-bold">{event.time.elapsed}'</span> -{" "}

@@ -12,16 +12,13 @@ import {
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-interface AdminPageProps {
-  userId: string;
-}
-
-const AdminPage: React.FC<AdminPageProps> = () => {
+const AdminPage: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
   const [league, setLeague] = useState<string>("");
   const [team, setTeam] = useState<string>("");
   const [selectedLeague, setSelectedLeague] = useState<string>("");
+  const [selectedEditLeague, setSelectedEditLeague] = useState<string>(""); // Added for edit league selection
   const [selectedHomeTeam, setSelectedHomeTeam] = useState<string>("");
   const [selectedAwayTeam, setSelectedAwayTeam] = useState<string>("");
   const [fixtureDate, setFixtureDate] = useState<Date | null>(null);
@@ -66,10 +63,14 @@ const AdminPage: React.FC<AdminPageProps> = () => {
       };
 
       fetchTeams();
+    }
+  }, [selectedLeague]);
 
+  useEffect(() => {
+    if (selectedEditLeague) {
       const fetchFixtures = async () => {
         const fixturesSnapshot = await getDocs(
-          collection(db, "leagues", selectedLeague, "fixtures")
+          collection(db, "leagues", selectedEditLeague, "fixtures")
         );
         setFixtures(
           fixturesSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
@@ -78,7 +79,7 @@ const AdminPage: React.FC<AdminPageProps> = () => {
 
       fetchFixtures();
     }
-  }, [selectedLeague]);
+  }, [selectedEditLeague]);
 
   if (userId && !isAdmin(userId) && loggedIn) {
     return <h1 className="text-xl text-red-600">Access Denied</h1>;
@@ -131,7 +132,7 @@ const AdminPage: React.FC<AdminPageProps> = () => {
     awayGoals: number
   ) => {
     try {
-      const fixtureRef = doc(db, "leagues", selectedLeague, "fixtures", id);
+      const fixtureRef = doc(db, "leagues", selectedEditLeague, "fixtures", id);
       await updateDoc(fixtureRef, { homeGoals, awayGoals });
       alert("Fixture result updated successfully!");
       const updatedFixtures = fixtures.map((fixture) =>
@@ -252,6 +253,18 @@ const AdminPage: React.FC<AdminPageProps> = () => {
         <h2 className="text-2xl font-semibold text-white mb-2">
           Edit Fixtures
         </h2>
+        <select
+          value={selectedEditLeague}
+          onChange={(e) => setSelectedEditLeague(e.target.value)}
+          className="w-full p-2 mb-4 border rounded-md bg-gray-800 text-white"
+        >
+          <option value="">Select League</option>
+          {leagues.map((league) => (
+            <option key={league.id} value={league.id}>
+              {league.name}
+            </option>
+          ))}
+        </select>
         {fixtures.map((fixture) => (
           <div
             key={fixture.id}
@@ -263,12 +276,12 @@ const AdminPage: React.FC<AdminPageProps> = () => {
             </div>
             <input
               type="number"
-              value={fixture.homeGoals || ""}
+              value={fixture.homeGoals ?? ""}
               onChange={(e) =>
                 setFixtures((prevFixtures) =>
                   prevFixtures.map((f) =>
                     f.id === fixture.id
-                      ? { ...f, homeGoals: e.target.value }
+                      ? { ...f, homeGoals: Number(e.target.value) }
                       : f
                   )
                 )
@@ -278,12 +291,12 @@ const AdminPage: React.FC<AdminPageProps> = () => {
             />
             <input
               type="number"
-              value={fixture.awayGoals || ""}
+              value={fixture.awayGoals ?? ""}
               onChange={(e) =>
                 setFixtures((prevFixtures) =>
                   prevFixtures.map((f) =>
                     f.id === fixture.id
-                      ? { ...f, awayGoals: e.target.value }
+                      ? { ...f, awayGoals: Number(e.target.value) }
                       : f
                   )
                 )
@@ -295,8 +308,8 @@ const AdminPage: React.FC<AdminPageProps> = () => {
               onClick={() =>
                 updateFixtureResult(
                   fixture.id,
-                  Number(fixture.homeGoals),
-                  Number(fixture.awayGoals)
+                  Number(fixture.homeGoals ?? 0),
+                  Number(fixture.awayGoals ?? 0)
                 )
               }
               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
@@ -309,4 +322,5 @@ const AdminPage: React.FC<AdminPageProps> = () => {
     </div>
   );
 };
+
 export default AdminPage;

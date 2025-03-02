@@ -21,6 +21,10 @@ const leagues = [
   { league: 172, name: "Efbet League" },
   { league: 173, name: "Second League" },
   { league: 174, name: "Bulgarian Cup" },
+  { league: 2, name: "UEFA Champions League" },
+  { league: 3, name: "UEFA Europa League" },
+  { league: 848, name: "UEFA Conference League" },
+  { league: 4, name: "UEFA Super Cup" },
 ];
 
 async function fetchFixturesByLeague(
