@@ -1,88 +1,149 @@
-import React, { useState, useEffect } from "react";
+"use client";
 
-interface Team {
+import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import Image from "next/image";
+
+interface SearchResult {
   id: number;
   name: string;
+  logo: string;
 }
 
 const SearchBar: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [teams, setTeams] = useState<Team[]>([]);
-  const [filteredTeams, setFilteredTeams] = useState<Team[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [results, setResults] = useState<SearchResult[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showResults, setShowResults] = useState<boolean>(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+  const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
-  const leagues = [
-    { name: "EPL", id: 39 },
-    { name: "La Liga", id: 140 },
-    { name: "Bundesliga", id: 78 },
-    { name: "Serie A", id: 135 },
-    { name: "Ligue 1", id: 61 },
-    { name: "Efbet League", id: 172 },
-  ];
-
-  const season = "2024";
-
+  // Затваряне на резултатите при клик извън компонента
   useEffect(() => {
-    const fetchTeams = async () => {
-      try {
-        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-        const requests = leagues.map((league) =>
-          fetch(
-            `https://v3.football.api-sports.io/teams?league=${
-              league.id
-            }&season=${2024}`,
-            {
-              headers: { "x-apisports-key": apiKey || "" },
-            }
-          ).then((response) => response.json())
-        );
-
-        const responses = await Promise.all(requests);
-        const allTeams = responses.flatMap((data) =>
-          data.response.map((team: any) => ({
-            id: team.team.id,
-            name: team.team.name,
-          }))
-        );
-
-        setTeams(allTeams);
-      } catch (error) {
-        console.error("Error fetching teams:", error);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target as Node)
+      ) {
+        setShowResults(false);
       }
     };
 
-    fetchTeams();
-  }, [season]);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
-  useEffect(() => {
-    if (searchTerm.length >= 3) {
-      const results = teams.filter((team) =>
-        team.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredTeams(results);
-    } else {
-      setFilteredTeams([]);
+  // Дебаунс на търсенето (изчакване преди заявка)
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
     }
-  }, [searchTerm, teams]);
+
+    if (value.length >= 3) {
+      debounceTimeout.current = setTimeout(() => {
+        searchTeams(value);
+      }, 300); // Изчакване 300ms преди заявка
+    } else {
+      setResults([]);
+      setShowResults(false);
+    }
+  };
+
+  // Изпълнява заявка към API-то
+  const searchTeams = async (query: string) => {
+    setIsLoading(true);
+    setShowResults(true);
+
+    try {
+      const response = await fetch(
+        `/api/search?query=${encodeURIComponent(query)}`
+      );
+
+      if (!response.ok) {
+        throw new Error("Search failed");
+      }
+
+      const data = await response.json();
+
+      if (data && Array.isArray(data.results)) {
+        setResults(data.results.slice(0, 4)); // Лимит до първите 4 резултата
+      } else {
+        setResults([]);
+      }
+    } catch (error) {
+      console.error("Error searching teams:", error);
+      setResults([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <div className="relative">
-      <input
-        type="text"
-        placeholder="Search for a team..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-full bg-gray-800 p-2 border border-gray-300 rounded-lg"
-      />
-      {filteredTeams.length > 0 && (
-        <div className="absolute left-0 right-0 mt-1 bg-gray-800 border border-gray-300 rounded-lg max-h-60 overflow-y-auto">
-          {filteredTeams.map((team) => {
-            const teamId = team.id.toString();
-            return (
-              <div key={team.id} className="p-2 hover:bg-gray-500">
-                <a href={`team/${teamId}`}>{team.name}</a>
-              </div>
-            );
-          })}
+    <div ref={searchRef} className="relative w-full max-w-md mx-auto">
+      <div className="relative">
+        <input
+          type="text"
+          placeholder="Search for teams..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="w-full py-2 px-4 bg-gray-800 text-white rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        {searchTerm && (
+          <button
+            onClick={() => {
+              setSearchTerm("");
+              setResults([]);
+              setShowResults(false);
+            }}
+            className="absolute right-3 top-2.5 text-gray-400 hover:text-white"
+          >
+            ✕
+          </button>
+        )}
+      </div>
+
+      {showResults && (
+        <div className="absolute z-10 w-full mt-1 bg-gray-800 rounded-lg shadow-lg max-h-96 overflow-y-auto">
+          {isLoading ? (
+            <div className="p-4 text-white text-center">Searching...</div>
+          ) : results.length > 0 ? (
+            <ul>
+              {results.map((result) => (
+                <li key={result.id}>
+                  <Link
+                    href={`/team/${result.id}`}
+                    className="flex items-center p-3 hover:bg-gray-700 transition-colors"
+                    onClick={() => setShowResults(false)}
+                  >
+                    {result.logo ? (
+                      <div className="mr-3">
+                        <Image
+                          src={result.logo}
+                          alt={`${result.name} logo`}
+                          width={32}
+                          height={32}
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-8 h-8 mr-3 bg-gray-600 rounded-full flex items-center justify-center">
+                        <span className="text-sm text-white">
+                          {result.name.charAt(0)}
+                        </span>
+                      </div>
+                    )}
+                    <span className="text-white">{result.name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : searchTerm.length >= 3 ? (
+            <div className="p-4 text-white text-center">No results found</div>
+          ) : null}
         </div>
       )}
     </div>

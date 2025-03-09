@@ -5,7 +5,7 @@ import { auth } from "@/lib/firebase";
 import { signOut } from "firebase/auth";
 import Link from "next/link";
 import { isAdmin } from "@/lib/admin"; // Import the isAdmin function
-import SearchBar from "./searchBar";
+import SearchBar from "@/app/components/searchBar"; // Import the SearchBar component
 
 export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -50,9 +50,6 @@ export default function Navbar() {
           </span>
         </a>
         <div className="flex items-center space-x-2 md:order-2">
-          <div className="md:hidden">
-            <SearchBar />
-          </div>
           <button
             className="block md:hidden text-white hover:text-gray-400 focus:outline-none"
             onClick={handleMobileMenuToggle}
@@ -80,10 +77,11 @@ export default function Navbar() {
 
         {/* Desktop Navbar Items */}
         <div className="hidden md:flex items-center w-full md:w-auto md:order-1 space-x-4">
-          <div className="w-full md:w-auto">
-            <SearchBar />
-          </div>
           <ul className="flex space-x-4">
+            <li>
+              {/* Search Bar */}
+              <SearchBar />
+            </li>
             <li>
               <Link href="/custom">
                 <button
@@ -104,18 +102,31 @@ export default function Navbar() {
                 </button>
               </Link>
             </li>
+
             {/* Admin Button */}
             {loggedIn && userId && isAdmin(userId) && (
-              <li>
-                <Link href="/admin">
-                  <button
-                    type="button"
-                    className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
-                  >
-                    Admin
-                  </button>
-                </Link>
-              </li>
+              <>
+                <li>
+                  <Link href="/admin">
+                    <button
+                      type="button"
+                      className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
+                    >
+                      Admin
+                    </button>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/adminDashboard">
+                    <button
+                      type="button"
+                      className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
+                    >
+                      Admin Dashboard
+                    </button>
+                  </Link>
+                </li>
+              </>
             )}
             {/* Profile Button & Dropdown (Only visible if logged in) */}
             {loggedIn && (
@@ -192,16 +203,28 @@ export default function Navbar() {
               </li>
               {/* Admin Button */}
               {loggedIn && userId && isAdmin(userId) && (
-                <li>
-                  <Link href="/admin">
-                    <button
-                      type="button"
-                      className="w-full py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
-                    >
-                      Admin
-                    </button>
-                  </Link>
-                </li>
+                <>
+                  <li>
+                    <Link href="/admin">
+                      <button
+                        type="button"
+                        className="w-full py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
+                      >
+                        Admin
+                      </button>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/adminDashboard">
+                      <button
+                        type="button"
+                        className="w-full py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
+                      >
+                        Admin Dashboard
+                      </button>
+                    </Link>
+                  </li>
+                </>
               )}
               {/* Profile Button & Dropdown (Only visible if logged in) */}
               {loggedIn && (
@@ -249,6 +272,8 @@ export default function Navbar() {
                   </Link>
                 </li>
               )}
+              {/* Search Bar */}
+              <li>{/* <SearchBar /> */}</li>
             </ul>
           </div>
         )}
