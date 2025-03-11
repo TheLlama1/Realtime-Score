@@ -135,8 +135,10 @@ export default async function Match({ params }: PageProps) {
                     key={`${event.time.elapsed}-${event.team.id}-${event.player.id}-${index}`}
                     className="hover:text-gray-600"
                   >
-                    <span className="font-bold">{event.time.elapsed}'</span> -{" "}
-                    {event.team.name}: {eventDescription}
+                    <span className="font-bold">
+                      {event.time.elapsed}&apos;
+                    </span>{" "}
+                    - {event.team.name}: {eventDescription}
                   </li>
                 );
               })}

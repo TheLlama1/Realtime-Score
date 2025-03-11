@@ -32,7 +32,7 @@ export default function LiveFixtureItem({
         </div>
       </div>
       <div className="w-1/3 flex flex-col justify-center items-center text-center">
-        <div className="text-sm">{match.fixture.status.elapsed}'</div>
+        <div className="text-sm">{match.fixture.status.elapsed}&apos;</div>
         <div className="text-base">vs</div>
       </div>
       <div className="w-1/3 flex items-center space-x-4 justify-end">
