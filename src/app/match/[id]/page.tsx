@@ -6,22 +6,18 @@ import { Fixture } from "@/types/apiFootball";
 import Image from "next/image";
 import Link from "next/link";
 
-type MatchParams = {
-  params: {
-    id: string;
-  };
+type PageProps = {
+  params: { id: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
 };
 
-export default async function Match({ params }: MatchParams) {
+export default async function Match({ params }: PageProps) {
   const fixtureId = parseInt(params.id);
   let fixtureByFixtureId: Fixture | undefined = await getFixturesByFixtureId(
     fixtureId
   );
   let lineups: any | undefined = await getLineupsByFixtureId(fixtureId);
   let events: any | undefined = await getEventsByFixtureId(fixtureId);
-  console.log("Fixture Data:", fixtureByFixtureId);
-  console.log("Lineups Data:", lineups);
-  console.log("Events Data:", events);
 
   if (!fixtureByFixtureId) {
     return (
