@@ -65,7 +65,7 @@ export default async function Team({ params }: PageProps) {
                 : "No Group/Rank"}
             </div>
             <div className="w-1/3 flex flex-col justify-center items-center">
-              <div className="text-center">Form</div>
+              <div className="text-center">Форма</div>
               <div className="flex justify-center items-center">
                 {teamInfo.form
                   ? teamInfo.form

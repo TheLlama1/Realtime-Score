@@ -148,14 +148,14 @@ const AccountPage: React.FC = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-900">
       <div className="w-full max-w-xl p-6 bg-sky-950 shadow-md rounded-lg">
         <h2 className="text-2xl font-bold mb-6 text-center text-white">
-          Account
+          Акаунт
         </h2>
         <div className="text-white mb-6">
           <p>
-            <strong>Email:</strong> {email}
+            <strong>Имейл:</strong> {email}
           </p>
           <p>
-            <strong>Date Registered:</strong>{" "}
+            <strong>Дата на регистрация:</strong>{" "}
             {dateRegistered
               ? new Date(dateRegistered).toLocaleDateString()
               : "N/A"}
@@ -164,11 +164,9 @@ const AccountPage: React.FC = () => {
 
         {/* Favorite Teams Section */}
         <div className="mt-6 mb-6">
-          <h3 className="text-xl font-bold mb-4 text-white">Favorite Teams</h3>
+          <h3 className="text-xl font-bold mb-4 text-white">Любими отбори</h3>
           {isLoading ? (
-            <div className="text-white text-center py-4">
-              Loading your favorite teams...
-            </div>
+            <div className="text-white text-center py-4">Зарежда...</div>
           ) : error ? (
             <div className="text-red-400 text-center py-4">{error}</div>
           ) : favoriteTeams.length > 0 ? (
@@ -201,7 +199,7 @@ const AccountPage: React.FC = () => {
             </div>
           ) : (
             <div className="text-white text-center bg-gray-800 p-4 rounded-lg">
-              No favorite teams yet. Visit team pages to add favorites!
+              Все още не са добавени любими отбори.
             </div>
           )}
         </div>
@@ -211,7 +209,7 @@ const AccountPage: React.FC = () => {
             onClick={handleLogout}
             className="py-2 px-4 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
           >
-            Log Out
+            Излез
           </button>
         </div>
       </div>

@@ -67,7 +67,7 @@ export default function Fixtures({ fixturesByTeamId, teamId }: PageProps) {
   return (
     <div className="flex flex-col w-full justify-center items-center text-neutral-100">
       <div className="flex w-full justify-center items-center p-2 bg-gray-800">
-        Upcoming Fixtures
+        Предстоящи срещи
       </div>
       <div className="flex items-center justify-center relative overflow-hidden w-full">
         <button
@@ -164,7 +164,7 @@ export default function Fixtures({ fixturesByTeamId, teamId }: PageProps) {
       </div>
       <div className="flex flex-col w-full justify-center items-center bg-gray-800">
         <div className="flex w-full justify-center items-center p-2 bg-gray-800">
-          Results
+          Резултати
         </div>
         {firstItemFixturesDone.map((fixture, i) => (
           <div
@@ -258,7 +258,7 @@ export default function Fixtures({ fixturesByTeamId, teamId }: PageProps) {
               className="bg-gray-800 hover:gray-500 p-4"
               onClick={handleShowMore}
             >
-              Show More
+              Покажи още
             </button>
           </div>
         )}

@@ -187,9 +187,7 @@ export default function StandingsAndFixtures({
         <div className="flex-1 lg:w-2/5 pt-10 lg:pr-10 pb-10 lg:pl-10">
           <div className="flex flex-col justify-center items-center bg-gray-800 w-full text-neutral-100 rounded-3xl h-full">
             <div className="w-full flex flex-col justify-center items-center">
-              <div className="p-2 text-lg font-bold mb-4">
-                Upcoming Fixtures
-              </div>
+              <div className="p-2 text-lg font-bold mb-4">Предстоящи срещи</div>
               <div className="flex flex-col w-full justify-center items-center pb-5 overflow-hidden">
                 {menuItems.map((leagueName, i) => {
                   return (
@@ -214,7 +212,7 @@ export default function StandingsAndFixtures({
 
       {/* Live Fixtures Section */}
       <div className="mt-10 flex flex-col w-full bg-gray-700 rounded-lg shadow-lg p-4">
-        <div className="text-lg font-bold mb-4">Live Fixtures</div>
+        <div className="text-lg font-bold mb-4">На живо</div>
         {liveFixtures.length > 0 ? (
           liveFixtures.map((league, i) => (
             <div

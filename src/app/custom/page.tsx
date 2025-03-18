@@ -88,10 +88,10 @@ const Page = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Admin Added Games</h1>
+      <h1 className="text-3xl font-bold mb-4">Неофициални мачове</h1>
 
       <section>
-        <h2 className="text-2xl font-semibold mt-6 mb-4">Upcoming Fixtures</h2>
+        <h2 className="text-2xl font-semibold mt-6 mb-4">Предстоящи</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {fixtures
             .filter((fixture) => new Date(fixture.date) >= new Date())
@@ -112,7 +112,7 @@ const Page = () => {
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold mt-6 mb-4">Finished Games</h2>
+        <h2 className="text-2xl font-semibold mt-6 mb-4">Приключили</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {finishedFixtures.map((fixture) => (
             <div
@@ -130,7 +130,9 @@ const Page = () => {
               </div>
               {fixture.homeGoals === undefined ||
               fixture.awayGoals === undefined ? (
-                <div className="text-red-500">Result not available yet</div>
+                <div className="text-red-500">
+                  Резултатът все още не е наличен
+                </div>
               ) : null}
             </div>
           ))}
@@ -138,12 +140,12 @@ const Page = () => {
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold mt-6 mb-4">Leagues</h2>
+        <h2 className="text-2xl font-semibold mt-6 mb-4">Първенства</h2>
         <button
           onClick={() => setShowAllLeagues(!showAllLeagues)}
           className="mb-4 py-2 px-4 bg-gray-800 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 focus:outline-none"
         >
-          {showAllLeagues ? "Hide All Leagues" : "Show All Leagues"}
+          {showAllLeagues ? "Скрий" : "Покажи всички"}
         </button>
         {showAllLeagues && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -160,12 +162,12 @@ const Page = () => {
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold mt-6 mb-4">Teams</h2>
+        <h2 className="text-2xl font-semibold mt-6 mb-4">Отбори</h2>
         <button
           onClick={() => setShowAllTeams(!showAllTeams)}
           className="mb-4 py-2 px-4 bg-gray-800 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 focus:outline-none"
         >
-          {showAllTeams ? "Hide All Teams" : "Show All Teams"}
+          {showAllTeams ? "Скрий" : "Покажи всички"}
         </button>
         {showAllTeams && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

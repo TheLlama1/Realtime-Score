@@ -88,17 +88,7 @@ export default function Navbar() {
                   type="button"
                   className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
                 >
-                  Unofficial Games
-                </button>
-              </Link>
-            </li>
-            <li>
-              <Link href="/privacyPolicy">
-                <button
-                  type="button"
-                  className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
-                >
-                  Privacy
+                  Неофициални мачове
                 </button>
               </Link>
             </li>
@@ -112,7 +102,7 @@ export default function Navbar() {
                       type="button"
                       className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
                     >
-                      Admin
+                      Админ
                     </button>
                   </Link>
                 </li>
@@ -122,7 +112,7 @@ export default function Navbar() {
                       type="button"
                       className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
                     >
-                      Admin Dashboard
+                      Администраторско табло
                     </button>
                   </Link>
                 </li>
@@ -135,7 +125,7 @@ export default function Navbar() {
                   onClick={handleDropdownToggle}
                   className="py-2 px-4 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-600"
                 >
-                  Profile
+                  Акаунт
                 </button>
                 {dropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-gray-800 shadow-lg rounded-lg">
@@ -145,7 +135,7 @@ export default function Navbar() {
                           href="/accountProfile"
                           className="block px-4 py-2 text-white hover:bg-gray-600 rounded"
                         >
-                          Account
+                          Акаунт
                         </Link>
                       </li>
                       <li>
@@ -153,7 +143,7 @@ export default function Navbar() {
                           onClick={handleLogout}
                           className="block px-4 py-2 text-white hover:bg-gray-600 rounded w-full text-left"
                         >
-                          Log Out
+                          Излез
                         </button>
                       </li>
                     </ul>
@@ -169,7 +159,7 @@ export default function Navbar() {
                     type="button"
                     className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
                   >
-                    Sign In
+                    Влез
                   </button>
                 </Link>
               </li>
@@ -187,17 +177,7 @@ export default function Navbar() {
                     type="button"
                     className="w-full py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
                   >
-                    Unofficial Games
-                  </button>
-                </Link>
-              </li>
-              <li>
-                <Link href="/privacyPolicy">
-                  <button
-                    type="button"
-                    className="w-full py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
-                  >
-                    Privacy
+                    Неофициални мачове
                   </button>
                 </Link>
               </li>
@@ -210,7 +190,7 @@ export default function Navbar() {
                         type="button"
                         className="w-full py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
                       >
-                        Admin
+                        Админ
                       </button>
                     </Link>
                   </li>
@@ -220,7 +200,7 @@ export default function Navbar() {
                         type="button"
                         className="w-full py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
                       >
-                        Admin Dashboard
+                        Администраторско табло
                       </button>
                     </Link>
                   </li>
@@ -233,7 +213,7 @@ export default function Navbar() {
                     onClick={handleDropdownToggle}
                     className="w-full py-2 px-4 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 hover:bg-gray-600"
                   >
-                    Profile
+                    Акаунт
                   </button>
                   {dropdownOpen && (
                     <div className="w-full mt-2 bg-gray-800 shadow-lg rounded-lg">
@@ -243,7 +223,7 @@ export default function Navbar() {
                             href="/accountProfile"
                             className="block px-4 py-2 text-white hover:bg-gray-600 rounded"
                           >
-                            Account
+                            Акаунт
                           </Link>
                         </li>
                         <li>
@@ -251,7 +231,7 @@ export default function Navbar() {
                             onClick={handleLogout}
                             className="block px-4 py-2 text-white hover:bg-gray-600 rounded w-full text-left"
                           >
-                            Log Out
+                            Излез
                           </button>
                         </li>
                       </ul>
@@ -267,7 +247,7 @@ export default function Navbar() {
                       type="button"
                       className="w-full py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
                     >
-                      Sign In
+                      Влез
                     </button>
                   </Link>
                 </li>

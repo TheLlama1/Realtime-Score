@@ -146,13 +146,15 @@ const AdminPage: React.FC = () => {
 
   return (
     <div className="p-6 min-h-screen bg-gray-900">
-      <h1 className="text-4xl font-bold text-white mb-4">Admin Dashboard</h1>
-      <p className="text-lg text-white mb-8">
+      <h1 className="text-4xl font-bold text-white mb-4">Админ</h1>
+      {/* <p className="text-lg text-white mb-8">
         Welcome, Admin! Here you can manage the application settings and users.
-      </p>
+      </p> */}
 
       <div className="mb-6">
-        <h2 className="text-2xl font-semibold text-white mb-2">Add League</h2>
+        <h2 className="text-2xl font-semibold text-white mb-2">
+          Добави първенство
+        </h2>
         <input
           type="text"
           value={league}
@@ -164,18 +166,18 @@ const AdminPage: React.FC = () => {
           onClick={addLeague}
           className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700"
         >
-          Add League
+          Добави
         </button>
       </div>
 
       <div className="mb-6">
-        <h2 className="text-2xl font-semibold text-white mb-2">Add Team</h2>
+        <h2 className="text-2xl font-semibold text-white mb-2">Добави отбор</h2>
         <select
           value={selectedLeague}
           onChange={(e) => setSelectedLeague(e.target.value)}
           className="w-full p-2 mb-4 border rounded-md bg-gray-800 text-white"
         >
-          <option value="">Select League</option>
+          <option value="">Избери първенство</option>
           {leagues.map((league) => (
             <option key={league.id} value={league.id}>
               {league.name}
@@ -193,18 +195,18 @@ const AdminPage: React.FC = () => {
           onClick={addTeam}
           className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700"
         >
-          Add Team
+          Добави
         </button>
       </div>
 
       <div className="mb-6">
-        <h2 className="text-2xl font-semibold text-white mb-2">Add Fixture</h2>
+        <h2 className="text-2xl font-semibold text-white mb-2">Добави мач</h2>
         <select
           value={selectedLeague}
           onChange={(e) => setSelectedLeague(e.target.value)}
           className="w-full p-2 mb-4 border rounded-md bg-gray-800 text-white"
         >
-          <option value="">Select League</option>
+          <option value="">Избери първенство</option>
           {leagues.map((league) => (
             <option key={league.id} value={league.id}>
               {league.name}
@@ -216,7 +218,7 @@ const AdminPage: React.FC = () => {
           onChange={(e) => setSelectedHomeTeam(e.target.value)}
           className="w-full p-2 mb-4 border rounded-md bg-gray-800 text-white"
         >
-          <option value="">Select Home Team</option>
+          <option value="">Избери отбор домакин</option>
           {teams.map((team) => (
             <option key={team.id} value={team.name}>
               {team.name}
@@ -228,7 +230,7 @@ const AdminPage: React.FC = () => {
           onChange={(e) => setSelectedAwayTeam(e.target.value)}
           className="w-full p-2 mb-4 border rounded-md bg-gray-800 text-white"
         >
-          <option value="">Select Away Team</option>
+          <option value="">Избери отбор гост</option>
           {teams.map((team) => (
             <option key={team.id} value={team.name}>
               {team.name}
@@ -245,20 +247,20 @@ const AdminPage: React.FC = () => {
           onClick={addFixture}
           className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700"
         >
-          Add Fixture
+          Добави
         </button>
       </div>
 
       <div className="mb-6">
         <h2 className="text-2xl font-semibold text-white mb-2">
-          Edit Fixtures
+          Редактирай мач
         </h2>
         <select
           value={selectedEditLeague}
           onChange={(e) => setSelectedEditLeague(e.target.value)}
           className="w-full p-2 mb-4 border rounded-md bg-gray-800 text-white"
         >
-          <option value="">Select League</option>
+          <option value="">Избери първенство</option>
           {leagues.map((league) => (
             <option key={league.id} value={league.id}>
               {league.name}
@@ -312,9 +314,9 @@ const AdminPage: React.FC = () => {
                   Number(fixture.awayGoals ?? 0)
                 )
               }
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-700"
             >
-              Update Result
+              Обнови резултат
             </button>
           </div>
         ))}

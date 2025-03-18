@@ -149,7 +149,9 @@ export default async function Match({ params }: PageProps) {
       {/* Lineups */}
       {lineups && (
         <div className="flex flex-col w-full max-w-5xl bg-gray-800 rounded-lg py-5 px-3 text-center shadow-lg mt-6">
-          <h3 className="text-lg md:text-xl font-semibold mb-4">Lineups</h3>
+          <h3 className="text-lg md:text-xl font-semibold mb-4">
+            Стартови състави
+          </h3>
           <div className="flex w-full justify-between text-lg md:text-xl">
             {lineups.length > 0 &&
               lineups[0] &&
