@@ -6,7 +6,13 @@ import { Fixture } from "@/types/apiFootball";
 import Image from "next/image";
 import Link from "next/link";
 
-export default async function Match({ params }: { params: { id: string } }) {
+type Params = {
+  params: {
+    id: string;
+  };
+};
+
+export default async function Match({ params }: Params) {
   const fixtureId = parseInt(params.id);
   let fixtureByFixtureId: Fixture | undefined = await getFixturesByFixtureId(
     fixtureId
