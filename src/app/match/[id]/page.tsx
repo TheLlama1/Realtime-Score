@@ -1,4 +1,3 @@
-import { GetServerSideProps } from "next";
 import LocalTime from "@/app/components/localTime";
 import getFixturesByFixtureId from "@/app/services/getFixtureByFixtureId";
 import getLineupsByFixtureId from "@/app/services/getLineupsByFixtureId";
@@ -7,30 +6,23 @@ import { Fixture } from "@/types/apiFootball";
 import Image from "next/image";
 import Link from "next/link";
 
-type MatchProps = {
-  fixtureByFixtureId: Fixture | null;
-  lineups: any | null;
-  events: any | null;
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { id } = context.params as { id: string };
-  const fixtureId = parseInt(id);
-
-  const fixtureByFixtureId = await getFixturesByFixtureId(fixtureId);
-  const lineups = await getLineupsByFixtureId(fixtureId);
-  const events = await getEventsByFixtureId(fixtureId);
-
-  return {
-    props: {
-      fixtureByFixtureId: fixtureByFixtureId || null,
-      lineups: lineups || null,
-      events: events || null,
-    },
+type PageProps = {
+  params: {
+    id: string;
   };
 };
 
-const Match = ({ fixtureByFixtureId, lineups, events }: MatchProps) => {
+export default async function Match({ params }: PageProps) {
+  const fixtureId = parseInt(params.id);
+  let fixtureByFixtureId: Fixture | undefined = await getFixturesByFixtureId(
+    fixtureId
+  );
+  let lineups: any | undefined = await getLineupsByFixtureId(fixtureId);
+  let events: any | undefined = await getEventsByFixtureId(fixtureId);
+  console.log("Fixture Data:", fixtureByFixtureId);
+  console.log("Lineups Data:", lineups);
+  console.log("Events Data:", events);
+
   if (!fixtureByFixtureId) {
     return (
       <div className="flex w-full justify-center items-center py-5">
@@ -157,6 +149,7 @@ const Match = ({ fixtureByFixtureId, lineups, events }: MatchProps) => {
       {/* Lineups */}
       {lineups && (
         <div className="flex flex-col w-full max-w-5xl bg-gray-800 rounded-lg py-5 px-3 text-center shadow-lg mt-6">
+          <h3 className="text-lg md:text-xl font-semibold mb-4">Lineups</h3>
           <h3 className="text-lg md:text-xl font-semibold mb-4">
             Стартови състави
           </h3>
@@ -260,6 +253,4 @@ const Match = ({ fixtureByFixtureId, lineups, events }: MatchProps) => {
       )}
     </div>
   );
-};
-
-export default Match;
+}
