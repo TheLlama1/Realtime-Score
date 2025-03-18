@@ -6,13 +6,13 @@ import { Fixture } from "@/types/apiFootball";
 import Image from "next/image";
 import Link from "next/link";
 
-type PageProps = {
+type MatchParams = {
   params: {
     id: string;
   };
 };
 
-export default async function Match({ params }: PageProps) {
+export default async function Match({ params }: MatchParams) {
   const fixtureId = parseInt(params.id);
   let fixtureByFixtureId: Fixture | undefined = await getFixturesByFixtureId(
     fixtureId
@@ -37,14 +37,14 @@ export default async function Match({ params }: PageProps) {
     <div className="flex flex-col w-full justify-center items-center py-10 md:p-10 text-neutral-100">
       {/* Match Info */}
       <div className="flex w-full max-w-7xl items-center justify-center perspective pb-10 md:pb-20">
-        <div className="w-1/4 flex justify-center rounded-full  logo-shadow">
+        <div className="w-1/4 flex justify-center rounded-full logo-shadow">
           <Link href={`../team/${fixtureByFixtureId.teams.home.id}`}>
             <Image
               src={fixtureByFixtureId.teams.home.logo}
               alt="HomeLogoMatch"
               width={150}
               height={150}
-              className=" shadow-lg hover:scale-110 transition-transform duration-300"
+              className="shadow-lg hover:scale-110 transition-transform duration-300"
             />
           </Link>
         </div>
@@ -78,14 +78,14 @@ export default async function Match({ params }: PageProps) {
             </div>
           </div>
         </div>
-        <div className="w-1/4 flex justify-center rounded-full  logo-shadow">
+        <div className="w-1/4 flex justify-center rounded-full logo-shadow">
           <Link href={`../team/${fixtureByFixtureId.teams.away.id}`}>
             <Image
               src={fixtureByFixtureId.teams.away.logo}
               alt="AwayLogoMatch"
               width={150}
               height={150}
-              className=" shadow-lg hover:scale-110 transition-transform duration-300"
+              className="shadow-lg hover:scale-110 transition-transform duration-300"
             />
           </Link>
         </div>
@@ -149,7 +149,6 @@ export default async function Match({ params }: PageProps) {
       {/* Lineups */}
       {lineups && (
         <div className="flex flex-col w-full max-w-5xl bg-gray-800 rounded-lg py-5 px-3 text-center shadow-lg mt-6">
-          <h3 className="text-lg md:text-xl font-semibold mb-4">Lineups</h3>
           <h3 className="text-lg md:text-xl font-semibold mb-4">
             Стартови състави
           </h3>
@@ -205,7 +204,7 @@ export default async function Match({ params }: PageProps) {
               lineups[1] &&
               lineups[1].team.id === fixtureByFixtureId.teams.away.id && (
                 <div className="w-1/2 px-3">
-                  <h4 className="text-md font-semibold  mb-2">
+                  <h4 className="text-md font-semibold mb-2">
                     {fixtureByFixtureId.teams.away.name}
                   </h4>
                   <div className="bg-gray-900 rounded-lg p-4 shadow-md">
