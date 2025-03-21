@@ -1,7 +1,10 @@
-import { Fixture } from "@/types/apiFootball";
-import getFixtures from "./getFixtures";
+// src/app/actions/fixtureActions.ts
+"use server";
 
-export default async function getFixturesByFixtureId(
+import { Fixture } from "@/types/apiFootball";
+import getFixtures from "../services/getFixtures";
+
+export async function getFixturesByFixtureId(
   id: number
 ): Promise<Fixture | undefined> {
   try {

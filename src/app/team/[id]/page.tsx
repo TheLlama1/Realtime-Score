@@ -5,14 +5,12 @@ import Fixtures from "./components/Fixtures";
 import getFixturesByTeamId from "@/app/services/getFixturesByTeamId";
 import FavouriteButton from "./components/FavouriteButton"; // Import the client component
 
-type PageProps = {
-  params: {
-    id: string;
-  };
-};
-
-export default async function Team({ params }: PageProps) {
-  const teamId = parseInt(params.id);
+export default async function Team({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const teamId = parseInt((await params).id);
 
   let teamInfo: Team | undefined;
   let fixturesByTeamId: Fixture[] = [];
