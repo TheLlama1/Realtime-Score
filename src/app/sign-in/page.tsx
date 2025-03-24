@@ -65,13 +65,7 @@ const SignIn: React.FC = () => {
             Sign In
           </button>
         </form>
-        <div className="mt-4 text-center">
-          <Link href="/reset-password">
-            <span className="text-gray-300 hover:text-white cursor-pointer">
-              Forgot Password?
-            </span>
-          </Link>
-        </div>
+
         <div className="mt-2 text-center">
           <p className="text-gray-400">
             Don’t have an account?{" "}
