@@ -49,6 +49,12 @@ export default function Navbar() {
             Realtime Score
           </span>
         </a>
+
+        {/* Mobile SearchBar - Added between logo and hamburger menu */}
+        <div className="flex-1 max-w-xs mx-2 md:hidden">
+          <SearchBar />
+        </div>
+
         <div className="flex items-center space-x-2 md:order-2">
           <button
             className="block md:hidden text-white hover:text-gray-400 focus:outline-none"
@@ -252,8 +258,6 @@ export default function Navbar() {
                   </Link>
                 </li>
               )}
-              {/* Search Bar */}
-              <li>{/* <SearchBar /> */}</li>
             </ul>
           </div>
         )}
