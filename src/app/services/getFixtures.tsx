@@ -71,19 +71,16 @@ export default async function getFixtures(): Promise<AllFixtures[]> {
     for (const league of leagues) {
       if (month <= 5) {
         allFixturesByLeague.push({
-          id: league.league, // добави id
           name: league.name,
           fixtures: await fetchFixturesByLeague(year - 1, league.league),
         });
       } else if (month >= 8) {
         allFixturesByLeague.push({
-          id: league.league, // добави id
           name: league.name,
           fixtures: await fetchFixturesByLeague(year, league.league),
         });
       } else {
         allFixturesByLeague.push({
-          id: league.league, // добави id
           name: league.name,
           fixtures: await fetchFixturesByLeague(year - 1, league.league),
         });
@@ -98,7 +95,6 @@ export default async function getFixtures(): Promise<AllFixtures[]> {
           );
         } else {
           allFixturesByLeague.push({
-            id: league.league, // добави id
             name: league.name,
             fixtures: await fetchFixturesByLeague(year, league.league),
           });
