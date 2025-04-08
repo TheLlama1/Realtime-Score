@@ -4,16 +4,18 @@ import { auth } from "@/lib/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation"; // Import useRouter
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const router = useRouter(); // Initialize router
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(""); // Clear previous errors
+    setError("");
 
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
@@ -22,6 +24,7 @@ const SignUp: React.FC = () => {
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      router.push("/accountProfile"); // Redirect to account page
     } catch (err: any) {
       setError(err.message || "Something went wrong.");
     }

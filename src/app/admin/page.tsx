@@ -1,28 +1,29 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { isAdmin } from "@/lib/admin"; // Adjust the import path as needed
-import { auth, db } from "@/lib/firebase"; // Add db from your Firebase configuration
+import { isAdmin } from "@/lib/admin"; // Synchronous function
+import { auth, db } from "@/lib/firebase";
 import {
   collection,
   addDoc,
   doc,
   getDocs,
   updateDoc,
-} from "firebase/firestore"; // Import Firestore functions
+} from "firebase/firestore";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const AdminPage: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true); // Add loading state
+
   const [league, setLeague] = useState<string>("");
   const [team, setTeam] = useState<string>("");
   const [selectedLeague, setSelectedLeague] = useState<string>("");
-  const [selectedEditLeague, setSelectedEditLeague] = useState<string>(""); // Added for edit league selection
+  const [selectedEditLeague, setSelectedEditLeague] = useState<string>("");
   const [selectedHomeTeam, setSelectedHomeTeam] = useState<string>("");
   const [selectedAwayTeam, setSelectedAwayTeam] = useState<string>("");
   const [fixtureDate, setFixtureDate] = useState<Date | null>(null);
-  const [result, setResult] = useState<string>("");
   const [leagues, setLeagues] = useState<any[]>([]);
   const [teams, setTeams] = useState<any[]>([]);
   const [fixtures, setFixtures] = useState<any[]>([]);
@@ -36,7 +37,9 @@ const AdminPage: React.FC = () => {
         setLoggedIn(false);
         setUserId(null);
       }
+      setLoading(false); // Mark auth check as complete
     });
+
     return () => unsubscribe();
   }, []);
 
@@ -81,8 +84,13 @@ const AdminPage: React.FC = () => {
     }
   }, [selectedEditLeague]);
 
-  if (userId && !isAdmin(userId) && loggedIn) {
-    return <h1 className="text-xl text-red-600">Access Denied</h1>;
+  // 🔐 Admin access control
+  if (loading) {
+    return <p className="text-white p-6">Loading...</p>;
+  }
+
+  if (!userId || !isAdmin(userId)) {
+    return <h1 className="text-xl text-red-600 p-6">Access Denied</h1>;
   }
 
   const addLeague = async () => {
@@ -147,10 +155,8 @@ const AdminPage: React.FC = () => {
   return (
     <div className="p-6 min-h-screen bg-gray-900">
       <h1 className="text-4xl font-bold text-white mb-4">Админ</h1>
-      {/* <p className="text-lg text-white mb-8">
-        Welcome, Admin! Here you can manage the application settings and users.
-      </p> */}
 
+      {/* Add League */}
       <div className="mb-6">
         <h2 className="text-2xl font-semibold text-white mb-2">
           Добави първенство
@@ -170,6 +176,7 @@ const AdminPage: React.FC = () => {
         </button>
       </div>
 
+      {/* Add Team */}
       <div className="mb-6">
         <h2 className="text-2xl font-semibold text-white mb-2">Добави отбор</h2>
         <select
@@ -199,6 +206,7 @@ const AdminPage: React.FC = () => {
         </button>
       </div>
 
+      {/* Add Fixture */}
       <div className="mb-6">
         <h2 className="text-2xl font-semibold text-white mb-2">Добави мач</h2>
         <select
@@ -251,6 +259,7 @@ const AdminPage: React.FC = () => {
         </button>
       </div>
 
+      {/* Edit Fixture */}
       <div className="mb-6">
         <h2 className="text-2xl font-semibold text-white mb-2">
           Редактирай мач

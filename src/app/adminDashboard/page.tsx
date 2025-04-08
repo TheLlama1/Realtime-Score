@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { getUsers } from "@/app/services/getUsers";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { db, auth } from "@/lib/firebase";
+import { isAdmin } from "@/lib/admin"; // Your isAdmin helper
 
 interface User {
   id: string;
@@ -11,17 +12,39 @@ interface User {
 }
 
 const AdminDashboard: React.FC = () => {
+  const [userId, setUserId] = useState<string | null>(null);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const [users, setUsers] = useState<User[]>([]);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [editedUser, setEditedUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUserId(user.uid);
+        setLoggedIn(true);
+      } else {
+        setUserId(null);
+        setLoggedIn(false);
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
       const fetchedUsers = await getUsers();
       setUsers(fetchedUsers);
     }
-    fetchData();
-  }, []);
+
+    if (userId && isAdmin(userId)) {
+      fetchData();
+    }
+  }, [userId]);
 
   const handleEditClick = (user: User) => {
     setEditingUser(user);
@@ -53,13 +76,19 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
+  // Access control UI
+  if (loading) return <p className="text-white p-6">Loading...</p>;
+  if (!userId || !isAdmin(userId)) {
+    return <h1 className="text-xl text-red-600 p-6">Access Denied</h1>;
+  }
+
   return (
     <div className="p-4 md:p-6 min-h-screen bg-gray-900">
       <h1 className="text-2xl md:text-4xl font-bold text-white mb-4">
         Admin Dashboard
       </h1>
 
-      {/* Desktop table - hidden on mobile */}
+      {/* Desktop table */}
       <div className="hidden md:block overflow-auto">
         <table className="w-full text-white">
           <thead>
@@ -76,7 +105,7 @@ const AdminDashboard: React.FC = () => {
                 <td className="border px-4 py-2">{user.id}</td>
                 <td className="border px-4 py-2">{user.email}</td>
                 <td className="border px-4 py-2">
-                  {editingUser && editingUser.id === user.id ? (
+                  {editingUser?.id === user.id ? (
                     <input
                       type="text"
                       name="name"
@@ -89,7 +118,7 @@ const AdminDashboard: React.FC = () => {
                   )}
                 </td>
                 <td className="border px-4 py-2">
-                  {editingUser && editingUser.id === user.id ? (
+                  {editingUser?.id === user.id ? (
                     <button
                       onClick={handleSaveClick}
                       className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
@@ -119,7 +148,7 @@ const AdminDashboard: React.FC = () => {
         </table>
       </div>
 
-      {/* Mobile card view - visible only on mobile */}
+      {/* Mobile cards */}
       <div className="md:hidden space-y-4">
         {users.map((user) => (
           <div key={user.id} className="bg-gray-800 rounded-lg p-4 text-white">
@@ -132,7 +161,7 @@ const AdminDashboard: React.FC = () => {
 
               <div className="text-gray-400">Name:</div>
               <div>
-                {editingUser && editingUser.id === user.id ? (
+                {editingUser?.id === user.id ? (
                   <input
                     type="text"
                     name="name"
@@ -147,7 +176,7 @@ const AdminDashboard: React.FC = () => {
             </div>
 
             <div className="flex justify-center mt-4 space-x-2">
-              {editingUser && editingUser.id === user.id ? (
+              {editingUser?.id === user.id ? (
                 <button
                   onClick={handleSaveClick}
                   className="flex-1 px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-medium"
