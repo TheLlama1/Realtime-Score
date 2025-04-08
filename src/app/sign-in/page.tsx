@@ -1,7 +1,8 @@
 "use client";
 
-import { auth } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -10,15 +11,34 @@ const SignIn: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const router = useRouter(); // Use Next.js router
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(""); // Clear previous errors
+    setError("");
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      router.push("/accountProfile"); // Redirect to the profile page
+      // Sign in using Firebase Authentication
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+
+      // Fetch user data from Firestore
+      const userDocRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (!userDoc.exists()) {
+        setError("User profile not found in Firestore.");
+        return;
+      }
+
+      // Optional: you can use userDoc.data() to access user profile info
+      // console.log("User profile:", userDoc.data());
+
+      router.push("/accountProfile");
     } catch (err: any) {
       setError(err.message || "Failed to log in. Please try again.");
     }

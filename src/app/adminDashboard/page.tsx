@@ -4,18 +4,18 @@ import React, { useEffect, useState } from "react";
 import { getUsers } from "@/app/services/getUsers";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db, auth } from "@/lib/firebase";
-import { isAdmin } from "@/lib/admin"; // Your isAdmin helper
+import { isAdmin } from "@/lib/admin";
 
 interface User {
   id: string;
+  username: string;
+  email: string;
   [key: string]: any;
 }
 
 const AdminDashboard: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
-  const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-
   const [users, setUsers] = useState<User[]>([]);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [editedUser, setEditedUser] = useState<User | null>(null);
@@ -24,10 +24,8 @@ const AdminDashboard: React.FC = () => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setUserId(user.uid);
-        setLoggedIn(true);
       } else {
         setUserId(null);
-        setLoggedIn(false);
       }
       setLoading(false);
     });
@@ -61,9 +59,20 @@ const AdminDashboard: React.FC = () => {
   const handleSaveClick = async () => {
     if (editedUser) {
       const userRef = doc(db, "users", editedUser.id);
-      await updateDoc(userRef, { ...editedUser });
+      await updateDoc(userRef, {
+        username: editedUser.username,
+        email: editedUser.email,
+      });
       setUsers(
-        users.map((user) => (user.id === editedUser.id ? editedUser : user))
+        users.map((user) =>
+          user.id === editedUser.id
+            ? {
+                ...user,
+                username: editedUser.username,
+                email: editedUser.email,
+              }
+            : user
+        )
       );
       setEditingUser(null);
       setEditedUser(null);
@@ -76,7 +85,6 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
-  // Access control UI
   if (loading) return <p className="text-white p-6">Loading...</p>;
   if (!userId || !isAdmin(userId)) {
     return <h1 className="text-xl text-red-600 p-6">Access Denied</h1>;
@@ -93,28 +101,38 @@ const AdminDashboard: React.FC = () => {
         <table className="w-full text-white">
           <thead>
             <tr>
-              <th className="border px-4 py-2">ID</th>
               <th className="border px-4 py-2">Email</th>
-              <th className="border px-4 py-2">Name</th>
+              <th className="border px-4 py-2">Username</th>
               <th className="border px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user) => (
               <tr key={user.id}>
-                <td className="border px-4 py-2">{user.id}</td>
-                <td className="border px-4 py-2">{user.email}</td>
                 <td className="border px-4 py-2">
                   {editingUser?.id === user.id ? (
                     <input
                       type="text"
-                      name="name"
-                      value={editedUser?.name || ""}
+                      name="email"
+                      value={editedUser?.email || ""}
                       onChange={handleChange}
                       className="w-full bg-gray-800 text-white p-2 rounded-md"
                     />
                   ) : (
-                    user.name
+                    user.email
+                  )}
+                </td>
+                <td className="border px-4 py-2">
+                  {editingUser?.id === user.id ? (
+                    <input
+                      type="text"
+                      name="username"
+                      value={editedUser?.username || ""}
+                      onChange={handleChange}
+                      className="w-full bg-gray-800 text-white p-2 rounded-md"
+                    />
+                  ) : (
+                    user.username
                   )}
                 </td>
                 <td className="border px-4 py-2">
@@ -153,24 +171,33 @@ const AdminDashboard: React.FC = () => {
         {users.map((user) => (
           <div key={user.id} className="bg-gray-800 rounded-lg p-4 text-white">
             <div className="grid grid-cols-2 gap-2 mb-2">
-              <div className="text-gray-400">ID:</div>
-              <div className="truncate">{user.id}</div>
-
               <div className="text-gray-400">Email:</div>
-              <div className="truncate">{user.email}</div>
-
-              <div className="text-gray-400">Name:</div>
               <div>
                 {editingUser?.id === user.id ? (
                   <input
                     type="text"
-                    name="name"
-                    value={editedUser?.name || ""}
+                    name="email"
+                    value={editedUser?.email || ""}
                     onChange={handleChange}
                     className="w-full bg-gray-700 text-white p-2 rounded-md"
                   />
                 ) : (
-                  user.name
+                  user.email
+                )}
+              </div>
+
+              <div className="text-gray-400">Username:</div>
+              <div>
+                {editingUser?.id === user.id ? (
+                  <input
+                    type="text"
+                    name="username"
+                    value={editedUser?.username || ""}
+                    onChange={handleChange}
+                    className="w-full bg-gray-700 text-white p-2 rounded-md"
+                  />
+                ) : (
+                  user.username
                 )}
               </div>
             </div>

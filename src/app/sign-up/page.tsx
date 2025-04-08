@@ -4,14 +4,17 @@ import { auth } from "@/lib/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Import useRouter
+import { useRouter } from "next/navigation";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const router = useRouter(); // Initialize router
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,9 +25,28 @@ const SignUp: React.FC = () => {
       return;
     }
 
+    if (!username.trim()) {
+      setError("Username is required.");
+      return;
+    }
+
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      router.push("/accountProfile"); // Redirect to account page
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+
+      // Save user to Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        username: username.trim(),
+        createdAt: new Date(),
+        favorites: [],
+      });
+
+      router.push("/accountProfile");
     } catch (err: any) {
       setError(err.message || "Something went wrong.");
     }
@@ -38,6 +60,19 @@ const SignUp: React.FC = () => {
         </h2>
         {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
         <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="username" className="block text-white">
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
+              required
+            />
+          </div>
           <div className="mb-4">
             <label htmlFor="email" className="block text-white">
               Email
