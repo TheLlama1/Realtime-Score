@@ -45,13 +45,13 @@ export default async function getStandings(): Promise<Standing[]> {
 
   const standings: Standing[] = [];
   const leagues = [
-    { name: "EPL", id: 39 },
-    { name: "La Liga", id: 140 },
-    { name: "Bundesliga", id: 78 },
-    { name: "Serie A", id: 135 },
-    { name: "Ligue 1", id: 61 },
-    { name: "Efbet League", id: 172 },
-    { name: "Second League", id: 173 },
+    { name: "Висша Лига", id: 39 },
+    { name: "Ла Лига", id: 140 },
+    { name: "Бундеслига", id: 78 },
+    { name: "Серия А", id: 135 },
+    { name: "Лига 1", id: 61 },
+    { name: "А група", id: 172 },
+    { name: "Б група", id: 173 },
   ];
 
   for (const league of leagues) {

@@ -14,13 +14,13 @@ export default function StandingsAndFixtures({
   filteredFixtures: AllFixtures[];
 }) {
   const menuItems = [
-    "EPL",
-    "La Liga",
-    "Bundesliga",
-    "Serie A",
-    "Ligue 1",
-    "Efbet League",
-    "Second League",
+    "Висша Лига",
+    "Ла Лига",
+    "Бундеслига",
+    "Серия А",
+    "Лига 1",
+    "А група",
+    "Б група",
   ];
   const [activeTab, setActiveTab] = useState(0);
   const [liveFixtures, setLiveFixtures] = useState<AllFixtures[]>([]);

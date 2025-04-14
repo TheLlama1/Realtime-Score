@@ -53,7 +53,7 @@ export default function Match() {
     return (
       <div className="flex w-full justify-center items-center py-5">
         <div className="flex max-w-7xl p-5 w-full md:flex-row justify-center items-center text-neutral-100">
-          Loading match information...
+          Зареждане на информацията за мача...
         </div>
       </div>
     );
@@ -142,21 +142,21 @@ export default function Match() {
       {/* In-Game Events */}
       {events && events.length > 0 && (
         <div className="flex flex-col w-full max-w-5xl bg-gray-800 rounded-lg py-5 px-3 text-center shadow-lg mt-6">
-          <h3 className="text-lg md:text-xl font-semibold">In-Game Events</h3>
+          <h3 className="text-lg md:text-xl font-semibold">Моменти в мача</h3>
           <div className="bg-gray-900 rounded-lg p-4 shadow-md">
             <ul className="mt-2 space-y-1">
               {events.map((event: any, index: number) => {
                 let eventDescription = "";
                 if (event.type === "Goal") {
-                  eventDescription = `GOAL ${event.player.name} ${
+                  eventDescription = `ГОЛ ${event.player.name} ${
                     event.detail === "Penalty"
-                      ? "(P)"
+                      ? "(Д)"
                       : event.detail === "Own Goal"
-                      ? "(OG)"
+                      ? "(АГ)"
                       : ""
                   }`;
                 } else if (event.type === "subst") {
-                  eventDescription = `Substitution: ${event.assist.name} for ${event.player.name}`;
+                  eventDescription = `Смяна: ${event.assist.name} на мястото на ${event.player.name}`;
                 } else {
                   eventDescription = `${event.detail} ${event.player.name}`;
                 }

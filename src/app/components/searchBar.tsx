@@ -88,7 +88,7 @@ const SearchBar: React.FC = () => {
       <div className="relative">
         <input
           type="text"
-          placeholder="Search for teams..."
+          placeholder="Потърси отбори..."
           value={searchTerm}
           onChange={handleSearchChange}
           className="w-full py-2 px-4 bg-gray-800 text-white rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
