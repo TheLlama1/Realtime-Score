@@ -48,13 +48,13 @@ const SignIn: React.FC = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-900">
       <div className="w-full max-w-md p-8 bg-sky-950 shadow-md rounded-lg">
         <h2 className="text-2xl font-bold mb-6 text-center text-white">
-          Sign In
+          Влизане в профила
         </h2>
         {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-white">
-              Email
+              Имейл
             </label>
             <input
               type="email"
@@ -67,7 +67,7 @@ const SignIn: React.FC = () => {
           </div>
           <div className="mb-4">
             <label htmlFor="password" className="block text-white">
-              Password
+              Парола
             </label>
             <input
               type="password"
@@ -82,16 +82,16 @@ const SignIn: React.FC = () => {
             type="submit"
             className="w-full py-2 px-4 bg-black text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
           >
-            Sign In
+            Влез
           </button>
         </form>
 
         <div className="mt-2 text-center">
           <p className="text-gray-400">
-            Don’t have an account?{" "}
+            Все още нямате акаунт?{" "}
             <Link href="/sign-up">
               <span className="text-gray-300 hover:text-white cursor-pointer">
-                Sign Up
+                Регистрирай се
               </span>
             </Link>
           </p>

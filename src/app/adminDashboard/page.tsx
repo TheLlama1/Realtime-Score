@@ -101,9 +101,9 @@ const AdminDashboard: React.FC = () => {
         <table className="w-full text-white">
           <thead>
             <tr>
-              <th className="border px-4 py-2">Email</th>
-              <th className="border px-4 py-2">Username</th>
-              <th className="border px-4 py-2">Actions</th>
+              <th className="border px-4 py-2">Имейл</th>
+              <th className="border px-4 py-2">Име на потребителя</th>
+              <th className="border px-4 py-2">Действия</th>
             </tr>
           </thead>
           <tbody>
@@ -171,7 +171,7 @@ const AdminDashboard: React.FC = () => {
         {users.map((user) => (
           <div key={user.id} className="bg-gray-800 rounded-lg p-4 text-white">
             <div className="grid grid-cols-2 gap-2 mb-2">
-              <div className="text-gray-400">Email:</div>
+              <div className="text-gray-400">Имейл:</div>
               <div>
                 {editingUser?.id === user.id ? (
                   <input
@@ -186,7 +186,7 @@ const AdminDashboard: React.FC = () => {
                 )}
               </div>
 
-              <div className="text-gray-400">Username:</div>
+              <div className="text-gray-400">Потребителско име:</div>
               <div>
                 {editingUser?.id === user.id ? (
                   <input

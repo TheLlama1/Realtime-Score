@@ -37,7 +37,9 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({ teamId }) => {
 
   const toggleFavourite = async () => {
     if (!user) {
-      alert("You need to be logged in to favourite a team.");
+      alert(
+        "Трябва да сте влезнали в акаунта си, за да зададете отбор като любим."
+      );
       return;
     }
 
@@ -72,7 +74,7 @@ const FavouriteButton: React.FC<FavouriteButtonProps> = ({ teamId }) => {
         isFavourite ? "bg-gray-600" : "bg-gray-700"
       } hover:bg-gray-500 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2`}
     >
-      {isFavourite ? "Unfavourite" : "Favourite"}
+      {isFavourite ? "Премахване от любими" : "Добавяне към любими"}
     </button>
   );
 };

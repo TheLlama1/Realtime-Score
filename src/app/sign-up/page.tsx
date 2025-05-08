@@ -56,13 +56,13 @@ const SignUp: React.FC = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-900">
       <div className="w-full max-w-md p-8 bg-sky-950 shadow-md rounded-lg">
         <h2 className="text-2xl font-bold mb-6 text-center text-white">
-          Sign Up
+          Регистрация
         </h2>
         {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="username" className="block text-white">
-              Username
+              Потребителско име
             </label>
             <input
               type="text"
@@ -75,7 +75,7 @@ const SignUp: React.FC = () => {
           </div>
           <div className="mb-4">
             <label htmlFor="email" className="block text-white">
-              Email
+              Имейл
             </label>
             <input
               type="email"
@@ -88,7 +88,7 @@ const SignUp: React.FC = () => {
           </div>
           <div className="mb-4">
             <label htmlFor="password" className="block text-white">
-              Password
+              Парола
             </label>
             <input
               type="password"
@@ -101,7 +101,7 @@ const SignUp: React.FC = () => {
           </div>
           <div className="mb-4">
             <label htmlFor="confirm-password" className="block text-white">
-              Confirm Password
+              Потвърдете паролата
             </label>
             <input
               type="password"
@@ -116,14 +116,14 @@ const SignUp: React.FC = () => {
             type="submit"
             className="w-full py-2 px-4 bg-black text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
           >
-            Sign Up
+            Регистрация
           </button>
         </form>
         <div className="mt-2 text-center">
           <p className="text-gray-400">
-            Already have an account?{" "}
+            Вече имате акаунт?{" "}
             <Link href="/sign-in" className="text-gray-300 hover:text-white">
-              Sign In
+              Влез в профила
             </Link>
           </p>
         </div>
