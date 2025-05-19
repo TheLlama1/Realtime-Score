@@ -78,7 +78,7 @@ export default function StandingsAndFixtures({
         {/* Standings Section */}
         <div className="flex-1 lg:w-3/5 md:p-6 p-3 py-4 bg-gray-800 rounded-xl">
           <div className="flex flex-col justify-center items-center w-full text-neutral-100">
-            <div className="p-2 text-lg font-bold">Standings</div>
+            <div className="p-2 text-lg font-bold">Класиране</div>
             {/* Desktop Tabs (hidden on mobile) */}
             <div className="hidden sm:flex justify-center w-full mb-4">
               {menuItems.map((leagueName, i) => (
