@@ -129,22 +129,22 @@ export default function StandingsAndFixtures({
                       <div className="w-[8%] sm:w-1/12"></div>
                       <div className="w-[32%] sm:w-3/12"></div>
                       <div className="w-[45%] sm:w-6/12 flex justify-evenly">
-                        <div className="w-full text-center">M</div>
-                        <div className="w-full text-center">W</div>
-                        <div className="w-full text-center">D</div>
-                        <div className="w-full text-center">L</div>
-                        <div className="w-full text-center font-bold">P</div>
+                        <div className="w-full text-center">ИМ</div>
+                        <div className="w-full text-center">П</div>
+                        <div className="w-full text-center">Р</div>
+                        <div className="w-full text-center">З</div>
+                        <div className="w-full text-center font-bold">Т</div>
                         <div className="hidden sm:block w-full text-center">
-                          GF
+                          ОГ
                         </div>
                         <div className="hidden sm:block w-full text-center">
-                          GA
+                          ДГ
                         </div>
                         <div className="hidden sm:block w-full text-center">
-                          GD
+                          ГР
                         </div>
                       </div>
-                      <div className="w-[15%] sm:w-2/12 text-center">Form</div>
+                      <div className="w-[15%] sm:w-2/12 text-center">Форма</div>
                     </div>
                     {responseData.league.standings[0].map((team, j) => (
                       <Link
