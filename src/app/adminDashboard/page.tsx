@@ -141,7 +141,7 @@ const AdminDashboard: React.FC = () => {
                       onClick={handleSaveClick}
                       className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
                     >
-                      Save
+                      Запази
                     </button>
                   ) : (
                     <>
@@ -149,13 +149,13 @@ const AdminDashboard: React.FC = () => {
                         onClick={() => handleEditClick(user)}
                         className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 mr-2"
                       >
-                        Edit
+                        Редактирай
                       </button>
                       <button
                         onClick={() => handleDeleteClick(user.id)}
                         className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
                       >
-                        Delete
+                        Изтрий
                       </button>
                     </>
                   )}

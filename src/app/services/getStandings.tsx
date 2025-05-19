@@ -55,9 +55,7 @@ export default async function getStandings(): Promise<Standing[]> {
   ];
 
   for (const league of leagues) {
-    let url = `https://v3.football.api-sports.io/standings?league=${
-      league.id
-    }&season=${2023}`;
+    let url = `https://v3.football.api-sports.io/standings?league=${league.id}&season=${year}`;
 
     try {
       const response = await fetch(url, options);
