@@ -94,7 +94,7 @@ export default function Navbar() {
                   type="button"
                   className="py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
                 >
-                  Неофициални мачове
+                  Допълнителни мачове
                 </button>
               </Link>
             </li>
@@ -183,7 +183,7 @@ export default function Navbar() {
                     type="button"
                     className="w-full py-2 px-4 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600"
                   >
-                    Неофициални мачове
+                    Допълнителни мачове
                   </button>
                 </Link>
               </li>

@@ -88,7 +88,7 @@ const Page = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Неофициални мачове</h1>
+      <h1 className="text-3xl font-bold mb-4">Допълнителни мачове</h1>
 
       <section>
         <h2 className="text-2xl font-semibold mt-6 mb-4">Предстоящи</h2>
