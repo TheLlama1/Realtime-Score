@@ -88,14 +88,14 @@ export default async function Team({
           {/* Stats */}
           <div className="flex flex-col w-full p-2 mt-10">
             <div className="flex w-full justify-center items-center text-xl font-bold">
-              <div className="w-full text-center">P</div>
-              <div className="w-full text-center">M</div>
-              <div className="w-full text-center">W</div>
-              <div className="w-full text-center">D</div>
-              <div className="w-full text-center">L</div>
-              <div className="w-full text-center">GF</div>
-              <div className="w-full text-center">GA</div>
-              <div className="w-full text-center">GD</div>
+              <div className="w-full text-center">Т</div>
+              <div className="w-full text-center">ИМ</div>
+              <div className="w-full text-center">П</div>
+              <div className="w-full text-center">Р</div>
+              <div className="w-full text-center">З</div>
+              <div className="w-full text-center">ОГ</div>
+              <div className="w-full text-center">ДГ</div>
+              <div className="w-full text-center">ГР</div>
             </div>
             <div className="flex w-full justify-center items-center text-xl">
               <div className="w-full text-center font-bold">
