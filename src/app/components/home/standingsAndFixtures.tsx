@@ -21,10 +21,55 @@ export default function StandingsAndFixtures({
     "Лига 1",
     "А група",
     "Б група",
+    "В група",
   ];
   const [activeTab, setActiveTab] = useState(0);
   const [liveFixtures, setLiveFixtures] = useState<AllFixtures[]>([]);
+  const [standingsError, setStandingsError] = useState<string | null>(null);
+  const [fixturesError, setFixturesError] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const isSummerMonth = () => {
+    const currentMonth = new Date().getMonth() + 1;
+    return currentMonth >= 5 && currentMonth <= 8;
+  };
+
+  useEffect(() => {
+    if (
+      !standingsData ||
+      standingsData.length === 0 ||
+      !standingsData[activeTab] ||
+      !standingsData[activeTab].league?.standings?.[0]?.length
+    ) {
+      setStandingsError(
+        "Възникна проблем при зареждането на класирането. Моля, опитайте отново по-късно."
+      );
+    } else {
+      setStandingsError(null);
+    }
+  }, [standingsData, activeTab]);
+
+  useEffect(() => {
+    const leagueName = menuItems[activeTab];
+    const leagueFixtures = filteredFixtures.find((l) => l.name === leagueName);
+
+    if (isSummerMonth()) {
+      setFixturesError(null);
+      return;
+    }
+
+    if (!leagueFixtures) {
+      setFixturesError(
+        "Възникна проблем при зареждането на предстоящите срещи. Моля, опитайте отново по-късно."
+      );
+    } else if (leagueFixtures.fixtures.length === 0) {
+      setFixturesError(
+        "Възникна проблем при зареждането на предстоящите срещи. Моля, опитайте отново по-късно."
+      );
+    } else {
+      setFixturesError(null);
+    }
+  }, [filteredFixtures, activeTab]);
 
   const scrollToTab = (index: number) => {
     const container = menuRef.current;
@@ -119,93 +164,101 @@ export default function StandingsAndFixtures({
               ref={menuRef}
               className="w-full flex overflow-x-hidden snap-x scrollbar-none scroll-smooth text-xs md:text-sm"
             >
-              {standingsData.map((responseData, i) => (
-                <div
-                  key={responseData.league.id}
-                  className="flex-shrink-0 w-full snap-center flex justify-center items-center"
-                >
-                  <div className="flex flex-col justify-between p-1 sm:p-2 w-full bg-gray-700 rounded-lg shadow-lg">
-                    <div className="flex w-full p-1 text-[10px] sm:text-xs">
-                      <div className="w-[8%] sm:w-1/12"></div>
-                      <div className="w-[32%] sm:w-3/12"></div>
-                      <div className="w-[45%] sm:w-6/12 flex justify-evenly">
-                        <div className="w-full text-center">ИМ</div>
-                        <div className="w-full text-center">П</div>
-                        <div className="w-full text-center">Р</div>
-                        <div className="w-full text-center">З</div>
-                        <div className="w-full text-center font-bold">Т</div>
-                        <div className="hidden sm:block w-full text-center">
-                          ОГ
+              {standingsError ? (
+                <div className="w-full text-center text-white py-8">
+                  {standingsError}
+                </div>
+              ) : (
+                standingsData.map((responseData, i) => (
+                  <div
+                    key={responseData.league.id}
+                    className="flex-shrink-0 w-full snap-center flex justify-center items-center"
+                  >
+                    <div className="flex flex-col justify-between p-1 sm:p-2 w-full bg-gray-700 rounded-lg shadow-lg">
+                      <div className="flex w-full p-1 text-[10px] sm:text-xs">
+                        <div className="w-[8%] sm:w-1/12"></div>
+                        <div className="w-[32%] sm:w-3/12"></div>
+                        <div className="w-[45%] sm:w-6/12 flex justify-evenly">
+                          <div className="w-full text-center">ИМ</div>
+                          <div className="w-full text-center">П</div>
+                          <div className="w-full text-center">Р</div>
+                          <div className="w-full text-center">З</div>
+                          <div className="w-full text-center font-bold">Т</div>
+                          <div className="hidden sm:block w-full text-center">
+                            ОГ
+                          </div>
+                          <div className="hidden sm:block w-full text-center">
+                            ДГ
+                          </div>
+                          <div className="hidden sm:block w-full text-center">
+                            ГР
+                          </div>
                         </div>
-                        <div className="hidden sm:block w-full text-center">
-                          ДГ
-                        </div>
-                        <div className="hidden sm:block w-full text-center">
-                          ГР
+                        <div className="w-[15%] sm:w-2/12 text-center">
+                          Форма
                         </div>
                       </div>
-                      <div className="w-[15%] sm:w-2/12 text-center">Форма</div>
+                      {responseData.league.standings[0].map((team, j) => (
+                        <Link
+                          href={`/team/${team.team.id}`}
+                          key={team.team.name + j}
+                          className={`flex w-full p-1 hover:bg-gray-600 ${
+                            j % 2 === 0 ? "bg-gray-800" : ""
+                          }`}
+                        >
+                          <div className="w-[8%] sm:w-1/12 flex px-1 sm:px-2 justify-center items-center text-[10px] sm:text-xs">
+                            {j + 1}
+                          </div>
+                          <div className="w-[32%] sm:w-3/12 flex text-[10px] sm:text-xs items-center truncate">
+                            {team.team.name}
+                          </div>
+                          <div className="w-[45%] sm:w-6/12 flex justify-center items-center text-[10px] sm:text-xs">
+                            <div className="w-full text-center">
+                              {team.all.played}
+                            </div>
+                            <div className="w-full text-center">
+                              {team.all.win}
+                            </div>
+                            <div className="w-full text-center">
+                              {team.all.draw}
+                            </div>
+                            <div className="w-full text-center">
+                              {team.all.lose}
+                            </div>
+                            <div className="w-full text-center font-bold">
+                              {team.points}
+                            </div>
+                            <div className="hidden sm:block w-full text-center">
+                              {team.all.goals.for}
+                            </div>
+                            <div className="hidden sm:block w-full text-center">
+                              {team.all.goals.against}
+                            </div>
+                            <div className="hidden sm:block w-full text-center">
+                              {team.goalsDiff}
+                            </div>
+                          </div>
+                          {/* Form section */}
+                          <div className="w-[15%] sm:w-2/12 flex justify-center items-center">
+                            {team.form?.split("").map((char, i) => (
+                              <div
+                                key={char + i}
+                                className={`opacity-80 w-2 h-2 sm:w-3 sm:h-3 m-[1px] rounded-full ${
+                                  char === "L"
+                                    ? "bg-red-500"
+                                    : char === "D"
+                                    ? "bg-gray-500"
+                                    : "bg-green-500"
+                                }`}
+                              ></div>
+                            ))}
+                          </div>
+                        </Link>
+                      ))}
                     </div>
-                    {responseData.league.standings[0].map((team, j) => (
-                      <Link
-                        href={`/team/${team.team.id}`}
-                        key={team.team.name + j}
-                        className={`flex w-full p-1 hover:bg-gray-600 ${
-                          j % 2 === 0 ? "bg-gray-800" : ""
-                        }`}
-                      >
-                        <div className="w-[8%] sm:w-1/12 flex px-1 sm:px-2 justify-center items-center text-[10px] sm:text-xs">
-                          {j + 1}
-                        </div>
-                        <div className="w-[32%] sm:w-3/12 flex text-[10px] sm:text-xs items-center truncate">
-                          {team.team.name}
-                        </div>
-                        <div className="w-[45%] sm:w-6/12 flex justify-center items-center text-[10px] sm:text-xs">
-                          <div className="w-full text-center">
-                            {team.all.played}
-                          </div>
-                          <div className="w-full text-center">
-                            {team.all.win}
-                          </div>
-                          <div className="w-full text-center">
-                            {team.all.draw}
-                          </div>
-                          <div className="w-full text-center">
-                            {team.all.lose}
-                          </div>
-                          <div className="w-full text-center font-bold">
-                            {team.points}
-                          </div>
-                          <div className="hidden sm:block w-full text-center">
-                            {team.all.goals.for}
-                          </div>
-                          <div className="hidden sm:block w-full text-center">
-                            {team.all.goals.against}
-                          </div>
-                          <div className="hidden sm:block w-full text-center">
-                            {team.goalsDiff}
-                          </div>
-                        </div>
-                        {/* Form section */}
-                        <div className="w-[15%] sm:w-2/12 flex justify-center items-center">
-                          {team.form?.split("").map((char, i) => (
-                            <div
-                              key={char + i}
-                              className={`opacity-80 w-2 h-2 sm:w-3 sm:h-3 m-[1px] rounded-full ${
-                                char === "L"
-                                  ? "bg-red-500"
-                                  : char === "D"
-                                  ? "bg-gray-500"
-                                  : "bg-green-500"
-                              }`}
-                            ></div>
-                          ))}
-                        </div>
-                      </Link>
-                    ))}
                   </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
         </div>
@@ -216,21 +269,40 @@ export default function StandingsAndFixtures({
             <div className="w-full flex flex-col justify-center items-center">
               <div className="p-2 text-lg font-bold mb-4">Предстоящи срещи</div>
               <div className="flex flex-col w-full justify-center items-center pb-5 overflow-hidden">
-                {menuItems.map((leagueName, i) => {
-                  return (
-                    activeTab === i &&
-                    filteredFixtures.map((league, j) => {
-                      if (league.name === leagueName) {
+                {fixturesError ? (
+                  <div className="w-full text-center text-white py-8">
+                    {fixturesError}
+                  </div>
+                ) : (
+                  menuItems.map((leagueName, i) => {
+                    if (activeTab === i) {
+                      const league = filteredFixtures.find(
+                        (l) => l.name === leagueName
+                      );
+                      if (!league || league.fixtures.length === 0) {
+                        return (
+                          <div
+                            key={leagueName}
+                            className="w-full text-center text-white py-8"
+                          >
+                            {isSummerMonth()
+                              ? "Няма повече предстоящи срещи за този сезон."
+                              : "Възникна проблем при зареждането на предстоящите срещи. Моля, опитайте отново по-късно."}
+                          </div>
+                        );
+                      }
+                      if (league) {
                         return (
                           <FixturesByLeague
                             fixturesData={league.fixtures}
-                            key={league.name + j}
+                            key={league.name + i}
                           />
                         );
                       }
-                    })
-                  );
-                })}
+                    }
+                    return null;
+                  })
+                )}
               </div>
             </div>
           </div>
@@ -259,7 +331,7 @@ export default function StandingsAndFixtures({
             </div>
           ))
         ) : (
-          <div className="text-center p-2">No live fixtures available</div>
+          <div className="text-center p-2">В момента няма срещи на живо</div>
         )}
       </div>
     </div>

@@ -17,28 +17,94 @@ export default function Match() {
   const [lineups, setLineups] = useState<any[] | undefined>(undefined);
   const [events, setEvents] = useState<any[] | undefined>(undefined);
   const [loading, setLoading] = useState(true);
+  const [fixtureError, setFixtureError] = useState<string | null>(null);
+  const [lineupsError, setLineupsError] = useState<string | null>(null);
+  const [eventsError, setEventsError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
+      setFixtureError(null);
+      setLineupsError(null);
+      setEventsError(null);
+
       try {
         // Fetch fixture data
         const fixtureResponse = await fetch(`/api/fixture/${fixtureId}`);
+
+        // Check if fixture exists (404 or empty response)
+        if (!fixtureResponse.ok || fixtureResponse.status === 404) {
+          setFixtureError(
+            "Възникна грешка при зареждането на информацията за мача. Моля, опитайте отново по-късно."
+          );
+          setLoading(false);
+          return;
+        }
+
         const fixtureData = await fixtureResponse.json();
 
-        // Fetch lineups
-        const lineupsResponse = await fetch(`/api/lineups/${fixtureId}`);
-        const lineupsData = await lineupsResponse.json();
-
-        // Fetch events
-        const eventsResponse = await fetch(`/api/events/${fixtureId}`);
-        const eventsData = await eventsResponse.json();
+        // Check if fixture data is empty or null
+        if (
+          !fixtureData ||
+          (Array.isArray(fixtureData) && fixtureData.length === 0)
+        ) {
+          setFixtureError(
+            "Възникна грешка при зареждането на информацията за мача. Моля, опитайте отново по-късно."
+          );
+          setLoading(false);
+          return;
+        }
 
         setFixture(fixtureData);
-        setLineups(lineupsData);
-        setEvents(eventsData);
+
+        // Fetch lineups
+        try {
+          const lineupsResponse = await fetch(`/api/lineups/${fixtureId}`);
+          if (lineupsResponse.ok) {
+            const lineupsData = await lineupsResponse.json();
+            if (lineupsData && lineupsData.length > 0) {
+              setLineups(lineupsData);
+            } else {
+              setLineupsError(
+                "Няма налична информация за състави за този мач."
+              );
+            }
+          } else {
+            setLineupsError(
+              "Възникна проблем при зареждането на състави. Моля, опитайте отново по-късно."
+            );
+          }
+        } catch (lineupsErr) {
+          setLineupsError(
+            "Възникна проблем при зареждането на състави. Моля, опитайте отново по-късно."
+          );
+        }
+
+        // Fetch events
+        try {
+          const eventsResponse = await fetch(`/api/events/${fixtureId}`);
+          if (eventsResponse.ok) {
+            const eventsData = await eventsResponse.json();
+            if (eventsData && eventsData.length > 0) {
+              setEvents(eventsData);
+            } else {
+              setEventsError("Няма налична информация за събития за този мач.");
+            }
+          } else {
+            setEventsError(
+              "Възникна проблем при зареждането на събития. Моля, опитайте отново по-късно."
+            );
+          }
+        } catch (eventsErr) {
+          setEventsError(
+            "Възникна проблем при зареждането на събития. Моля, опитайте отново по-късно."
+          );
+        }
       } catch (error) {
         console.error("Error fetching match data:", error);
+        setFixtureError(
+          "Възникна грешка при зареждането на информацията за мача."
+        );
       } finally {
         setLoading(false);
       }
@@ -59,11 +125,23 @@ export default function Match() {
     );
   }
 
+  if (fixtureError) {
+    return (
+      <div className="flex w-full justify-center items-center py-5">
+        <div className="flex max-w-7xl p-5 w-full md:flex-row justify-center items-center text-neutral-100">
+          <div className="w-full text-center text-white py-8">
+            {fixtureError}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (!fixture) {
     return (
       <div className="flex w-full justify-center items-center py-5">
         <div className="flex max-w-7xl p-5 w-full md:flex-row justify-center items-center text-neutral-100">
-          No Fixture Info Available
+          Няма налична информация за този мач в момента.
         </div>
       </div>
     );

@@ -110,7 +110,7 @@ const SearchBar: React.FC = () => {
       {showResults && (
         <div className="absolute z-10 w-full mt-1 bg-gray-800 rounded-lg shadow-lg max-h-96 overflow-y-auto">
           {isLoading ? (
-            <div className="p-4 text-white text-center">Searching...</div>
+            <div className="p-4 text-white text-center">Търсене...</div>
           ) : results.length > 0 ? (
             <ul>
               {results.map((result) => (
@@ -142,7 +142,9 @@ const SearchBar: React.FC = () => {
               ))}
             </ul>
           ) : searchTerm.length >= 3 ? (
-            <div className="p-4 text-white text-center">No results found</div>
+            <div className="p-4 text-white text-center">
+              Няма данни за този отбор
+            </div>
           ) : null}
         </div>
       )}

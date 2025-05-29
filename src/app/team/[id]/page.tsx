@@ -30,7 +30,7 @@ export default async function Team({
     return (
       <div className="flex w-full justify-center items-center py-5">
         <div className="flex max-w-7xl p-5 w-full justify-center text-neutral-100">
-          Team Info Not Available
+          Няма налична информация за отбора в този момент.{" "}
         </div>
       </div>
     );
