@@ -21,7 +21,6 @@ export default function StandingsAndFixtures({
     "Лига 1",
     "А група",
     "Б група",
-    "В група",
   ];
   const [activeTab, setActiveTab] = useState(0);
   const [liveFixtures, setLiveFixtures] = useState<AllFixtures[]>([]);
