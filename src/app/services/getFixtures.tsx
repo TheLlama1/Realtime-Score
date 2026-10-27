@@ -29,9 +29,9 @@ const leagues = [
 
 async function fetchFixturesByLeague(
   year: number,
-  league: number
+  league: number,
 ): Promise<Fixture[]> {
-  const url = `https://v3.football.api-sports.io/fixtures?league=${league}&season=${2022}`;
+  const url = `https://v3.football.api-sports.io/fixtures?league=${league}&season=${2024}`;
   const options = {
     method: "GET",
     headers: {
@@ -86,12 +86,12 @@ export default async function getFixtures(): Promise<AllFixtures[]> {
         });
 
         const existingData = allFixturesByLeague.find(
-          (data) => data.name === league.name
+          (data) => data.name === league.name,
         );
 
         if (existingData) {
           existingData.fixtures.push(
-            ...(await fetchFixturesByLeague(year, league.league))
+            ...(await fetchFixturesByLeague(year, league.league)),
           );
         } else {
           allFixturesByLeague.push({

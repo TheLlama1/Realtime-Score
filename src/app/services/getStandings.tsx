@@ -57,14 +57,14 @@ export default async function getStandings(): Promise<Standing[]> {
   for (const league of leagues) {
     let url = `https://v3.football.api-sports.io/standings?league=${
       league.id
-    }&season=${2022}`;
+    }&season=${2024}`;
 
     try {
       const response = await fetch(url, options);
 
       if (!response.ok) {
         console.error(
-          `Failed to fetch for ${league.name} with status: ${response.status}`
+          `Failed to fetch for ${league.name} with status: ${response.status}`,
         );
         continue;
       }
